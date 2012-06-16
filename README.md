@@ -23,10 +23,11 @@ possible.
 
 Goals
 -----
-- Ergonomy. No matter how meny features you add to wysiwyg editor, when core
+- Ergonomy. No matter how many features you add to wysiwyg editor, when core
 editing functionality is hard to use, no new features will change that. 
-I want Kiji to be simple to use for new users.
-- Simplicity. Focus on just editing. Nothing else.
+I want Kiji to be simple and intuitive to use for new users.
+- Simplicity. Focus on just editing. Nothing else. No saving, no user ACL, no
+PDF generation.
 
 History
 -------
