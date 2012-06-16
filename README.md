@@ -1,7 +1,6 @@
 kiji
 ====
-
-Kiji is editor of report templates (for example birth certificate). It is a 
+Kiji is editor of report templates (for example birth certificate). It is a
 simple webpage where you can put text labels, lines, rectangles and 
 placeholder texts. Created report template then must be filled with data on 
 server side, where placeholder texts are replaced with data and saved into 
