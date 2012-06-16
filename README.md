@@ -33,3 +33,5 @@ History
 - 2012/06/15 - First working demo (lines, texts, basic editing)
 - 2012/05/24 - Development started
 
+Todo
+----
