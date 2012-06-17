@@ -1,0 +1,315 @@
+<html>
+  <head>
+    <title>Kiji</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8">
+    <link rel="shortcut icon" href="kiji.png" type="image/x-icon" />
+    <style>
+    body {
+    }
+
+    canvas {
+      border: 1px solid black;
+      /*
+      width: 210mm;
+      height: 290mm;
+      */
+      width: 1095px;
+      height: 1550px;
+      /*
+      width: 80%;
+      */
+      background: gray;
+      cursor: default;
+    }
+
+    div.menu {
+      float: left;
+      width: 130px;
+      text-align: left;
+      border: 0px solid blue;
+    }
+
+    #tools button {
+      cursor: pointer;
+    }
+
+    #tools button.selected {
+      color: blue;
+    }
+
+    #attributes label {
+      font-size: x-small;
+      width: 45px;
+      display: block;
+      float: left;
+      margin-top: 6px;
+    }
+
+    input {
+      width: 80px;
+    }
+
+    #HelpContent {
+      background: silver;
+      position: absolute;
+      left: 138px;
+      top: 0px;
+      display: none;
+      padding: 1em;
+    }
+
+    li.broken {
+      color: red;
+    }
+    li.broken:before {
+      content: "BROKEN: ";
+    }
+    </style>
+  </head>
+  <script src="kiji.js"></script>
+  <script src="line.js"></script>
+  <script src="text.js"></script>
+  <script src="math.js"></script>
+  <script src="items.js"></script>
+  <script src="undo.js"></script>
+  <script src="mouse.js"></script>
+  <script src="validate.js"></script>
+  <body
+    onload="bodyOnLoad()"
+    onunload="bodyOnUnload()"
+    onkeydown="return bodyOnKeyDown(this,event)"
+    >
+
+    <div class="menu">
+
+      <div id="tools">
+        <button id="Move" onclick="setTool(this)" title="Select and move objects">Move</button>
+        <button id="Text" onclick="setTool(this)" title="Add new text">Text</button>
+        <button id="Line" onclick="setTool(this)" title="Add new line">Line</button>
+        <button id="Help" onclick="setTool(this)" title="Show/hide help">Help</button>
+        <button onclick="zoom100()" title="Zoom to 100% and reset pan">100%</button>
+        <button onclick="backup(report)" title="Backup report on server">Backup</button>
+        <button onclick="validate(report,true); redraw('button OnClick');" title="Validate and repair report">Validate</button>
+      </div>
+
+      <div id="attributes">
+        <div>
+          <label for="attr_x">X</label>
+          <input id="attr_x" onfocus="attrOnFocus(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" type="number" />
+        </div>
+        <div>
+          <label for="attr_y">Y</label>
+          <input id="attr_y" onfocus="attrOnFocus(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" type="number" />
+        </div>
+        <div>
+          <label for="attr_endx">EndX</label>
+          <input id="attr_endx" onfocus="attrOnFocus(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" />
+        </div>
+        <div>
+          <label for="attr_endy">EndY</label>
+          <input id="attr_endy" onfocus="attrOnFocus(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" />
+        </div>
+        <div>
+          <label for="attr_caption">Caption</label>
+          <input id="attr_caption" onfocus="attrOnFocus(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" />
+        </div>
+        <div>
+          <label for="attr_width">Width</label>
+          <input id="attr_width" onfocus="attrOnFocus(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" type="number" />
+        </div>
+        <div>
+          <label for="attr_height">Height</label>
+          <input id="attr_height" onfocus="attrOnFocus(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" type="number" />
+        </div>
+        <div>
+          <label for="attr_thicknes">Thicknes</label>
+          <input id="attr_thicknes" onfocus="attrOnFocus(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" type="number" />
+        </div>
+        <div>
+          <label for="attr_font">Font</label>
+          <input id="attr_font" onfocus="attrOnFocus(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" />
+        </div>
+        <div>
+          <label for="attr_color">Color</label>
+          <input id="attr_color" onfocus="attrOnFocus(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" />
+        </div>
+      </div>
+
+      <!-- this is mostly for debuging purposes -->
+      <div id="status">
+        <div id="rxy">X:0, Y:0</div>
+        <div id="items">Items: 0/0</div>
+      </div>
+
+      <!-- help, todo, etc... -->
+      <div id="HelpContent">
+        <h1>Kiji report designer v0.1</h1>
+
+        <div>
+        Kiji je dizajner tlacovych zostav. Momentalne je vo vyvoji (pre-alpha), neumoznuje ani
+        normalne ukladanie, pozadie je natvrdo a neda sa zmenit. Kod je strasny,
+        nebol vobec precisteny. Este len zistujem co a ako najlepsie implementovat.
+        Zdojove kody su na <a href="http://github.com/zirapha/kiji">githube</a>, tam
+        ma mozete aj kontaktovat.
+        </div>
+
+        <h2>Todo: Before first release (14.6.2012)</h2>
+        <ul>
+          <li>Zmenit emaily v gite doma aj v praci</li>
+        </ul>
+
+        <h2>Bugs</h2>
+        <ul>
+          <li>Pri zvacsovani textu neprepocitavam novy rozmer caption! takze je width neaktualne!</li>
+          <li>Docasne som zrusil posuvanie sipkami, funguje len posuvanie ctrl+sipka aby ked som v caption a posuvam kurzor tam kde chcem pisat aby sa mi neposuvala item</li>
+          <li>Ked oznacim 2 objekty (ciary), tak ich normalne mozem spolu posuvat, ale ked kliknem na niektory z nich
+          tak, ze sa zvoli metodou near miesto exact, tak sa pri posune strati oznacenie druhej a posuvam len tu
+          kliknutu, proste ako keby near malo prednost pred selection, to neni dobre. Deje sa to preto lebo v
+          itemSelect najprv testujem exact match, potom su nejake podmienky na oznacovanie uz oznacenych a tie
+          to sposobuju. Ten itemSelect sa aj tak cely bude prepisovat takze sa to asi opravi samo.</li>
+        </ul>
+
+        <h2>Todo: cleanup</h2>
+        <ul>
+          <li>Report, Canvas, Context je jednoznacny singleton, viem ze nemam rad globalne premenne ale ten
+          mouse_handler.report by to vyriesilo, a aj na kopec miestach trtkanie sa s ACanvas, AContext</li>
+          <li>Mam mouse_handler.report ale ten je po undo uz neaktualny, zatial ho rucne prepisem v undo ale
+          neni to dobre!</li>
+          <li>prepisat itemSelect tak aby pre Line pouzival lineSelect, pre Text pouzival textSelect, atd...
+          (proste nieco ako polymorfizmus, teoreticky by som mohol po do report[i] priradit metodu selekt a
+          JSON.stringify by ju pri ukladani aj tak mal zrusit, pripadne mozem zrusit rucne)</li>
+          <li>Pred velkym finalnym refaktoringom spisat zoznam globalnych premennych a z toho vychadzat</li>
+        </ul>
+
+        <h2>Todo: wishlist</h2>
+        <ul>
+          <li>Trochu ma serie ze za wheel zoom miesa so skrolovanim stranky, mozno zmenit zoom na wheel+middle</li>
+          <li>Nieco (slint/angle) na otacanie textov lebo v lavo su v Z1-12 otocene texty o 90°</li>
+          <li>Spravit kompletne Z1-12 (text,ciary,vertikalne texty,boxy)</li>
+          <li>Tlacitko white co potlaci pozadie, asi sposobom on/off, alebo off/10%/50%/100% ?</li>
+          <li>Nejaky threshold na pan lebo takto sa posuva o 1-2 pixely ked trosku blbo kliknem</li>
+          <li>Threshold by mozno mal zavysiet od zoomu, ak mam velky zoom a threshold je stale 5 tak to neni moc
+          dobre lebo pri velkom zoome je 5 uz moc vela a pri texte to nerobi dobrotu</li>
+          <li>Nejake zarovnavanie horizontalne/vertikalne k inym objektom, ako v lazaruse, alebo snap nejaky
+          (napr. ak kliknem tak najde najblizsi priesecnik 2 ciar a zarovna ich)</li>
+          <li>Vyriesit oznacovanie prekryvajucich sa ramcekov ([ [] ]) mozno cez z-index resp. send to back/front</li>
+          <li>Moznost vypnut automaticku ortogonalizaciu ciar</li>
+          <li>Obdlznikove oznacovanie viac poloziek</li>
+          <li>Kopirovanie oznacenych poloziek (oznacim 3, kopia, vzniknu 3 nove ktore budu oznacene, trochu
+          posunute aby to bolo vidno a povodne stratia oznacenie)</li>
+          <li>Pri posuvani handle ciary ak nie je znama, mozno by som mohol pouzit tu ktora bola pouzita naposledy</li>
+          <li>Jednoduchy placeholder text, napr $name alebo {MENO} {PRIEZV} {RC}</li>
+          <li>Jednoduchy server side pdf renderer v PHP s nahradzovanim premennych 1:1</li>
+          <li>Jednoduchy html formular kde vyplnim udaje (staticke inputy, SELECT/OPTION namiesto ciselnikov)</li>
+          <li>Nejake ucelene demo: Formular->Server vyplni udaje do reportu->Tlac pdf</li>
+          <li>Mozno by som mal odmietnut zmenu velkosti sipkami ak selection obsahuje rozne typy lebo potom to
+          nie je jednoznacne, resp. inak sa chovat ked je zvolena 1 item a inak ked su viac</li>
+          <li>Ked kliknem na 2 prekryvajuce sa texty a 1 ciaru, aj bez drzania shiftu by sa mali oznacit vsetky 3</li>
+          <li>textDrawItem mozno zlucit do textDraw, lebo narozdiel od ciary ktora sa kresli este ked je nepridana
+          do items, text je vzdy pridany do items. Teoreticky by som mohol ciaru kreslit tak ze ju pri mouse down
+          pridam, nastavim ako current_item a priebezne menim end a pri pusteni zapisem end, tak by mi stacilo len
+          lineDrawItem</li>
+          <li>Aplication testy, s naprosto preciznou kontrolo mysi a klaves, viem si to predstavit v lazaruse
+          alebo v takom niecom, zacnem novy report, naskriptujem nejaku cinnost, dam ulozit, a potom skontrolujem ci
+          sa na servri objavil spravny json. Od jednoduchych veci typu pridanie textu, az po zlosite veci ako
+          pridanie textu, posun, oznacenie viac item, spolocny posun, wheel down, click na caption, sipka do lava, del, ulozit</li>
+        </ul>
+
+        <h2>Features description</h2>
+        <ul>
+          <li>Oznacovanie poloziek
+            <ul>
+              <li>Polozky sa oznacuju lavym tlacitkom mysi</li>
+              <li>Polozky sa oznacia aj ked kliknem 5px od nich</li>
+              <li>Ak na canvase kliknem mimo akukolvek item zrusi sa oznacenie</li>
+              <li>Ak drzim shift tak mozem postupne oznacit viac poloziek</li>
+              <li>Ak je oznacenych viac poloziek a kliknem na jednu z tych oznacenych a
+                zacnem ju posuvat, tak sa nestrati oznacenie ostatnych a posunu sa
+                spolu s nou. Normalne ak kliknem na polozku bez shiftu tak sa zrusi
+                oznacenie ostatnych.</li>
+              <li>Ak chcem zrusit oznacenie jednej konkretnej item tak podrzim shift a znova na nu kliknem</li>
+            </ul>
+          </li>
+
+          <li>Stlacenim stredneho tlacitka (kolieska) mozem posuvat pozadie (tzv. pan)</li>
+          <li>Pan funguje aj ked som nad nejakou item lebo sa pouziva stredne tlacitko, nie lave</li>
+          <li>Pan nezrusi oznacenie</li>
+          <li>Koliesko funguje ako zoom</li>
+          <li>Minimalny mozny zoom je 50% (t.j. 2x mensie)</li>
+          <li>Minimalny mozny zoom je 2000% (t.j. 20x vacsie)</li>
+          <li>Ctrl+Z vrati zmenu spat (undo) a mozno ho volat opakovane</li>
+          <li>Pri pane sa priebezne prekresluje pozadie takze vidim kam sa posuvam, kvoli rychlosti
+            sa komponenty nemusia prekreslovat</li>
+
+          <li>Ked posuvam zvolene item tak ich vidno pocas posuvania</li>
+          <li>Ak je zvoleny nastroj TEXT, scrolovanie a pan funguju, ale miesto selektovania
+            sa pridavaju textove polozky lavym tlacitkom</li>
+          <li>Ak je zvoleny nastroj LINE, scrolovanie a pan funguju, ale miesto selektovania
+            sa pridavaju nove ciary lavym tlacitkom</li>
+          <li>Ak je pridana/editovana ciara takmer horizontalna/vertikalna, tak sa konvertuje na presne horizontalnu/vertikalnu</li>
+          <li>Ciara sa ortogonalizuje tak ze sa ponecha naposledy editovany bod a upravi sa poloha ostatneho bodu</li>
+
+          <li>Ciaru mozno kreslit lubovolnym smerom (z lava doprava, z prava dolava, z hora dole, z dola hore)</li>
+          <li>V rezime Move ked nastavim focus do inputu tak sa tento focus uchovava aby bolo mozne napr. klikat na texty a menit caption bez opakovaneho klikania na input caption. Zrusit fokus mozno stlacenim ESC.</li>
+          <li class="broken" title="Ak raz ma input focus neviem ho zrusit, zatial to riesim escom, neviem ci je to dobre">Ak su zvolene polozky a nie je priamo fokusovany input objekt inspektora tak sa stlacenim DEL polozky vymazu</li>
+          <li class="broken" title="Toto asi vzajomne interferuje s poziadavkou aby uchovaval fokus pri klikani na item">Ak je fokusovany nejaky input a kliknem na canvas tak sa akoze strati fokus toho inputu (hoci realne tam
+            ostane lebo canvas nie je fokusovatelny komponent) a je mozne mazat polozky</li>
+          <li>Mazanie objektov
+            <ul>
+              <li class="broken" title="nefunguje to ked je fokusovany input, momentalne treba stlacit esc">Oznacene objekty sa mazu klavesou DEL</li>
+              <li>Ak je fokusovany nejaky input a stlacim DEL, funguje ako normalna klavesa</li>
+              del a maze nasl. znak v inpute, nie zvolenu item!</li>
+              <li>Zrusim oznacenie, F5, oznacim text, kliknem na caption, kliknem na text, kliknem na caption,
+              DEL maze znak v caption, nie celu item! (bola to ista interferencia s workaroundom na del a
+              linuxovy clipboard)</li>
+            </ul>
+          </li>
+          <li>Kreslenie ciar
+            <ul>
+              <li>Zaciatok ciary je tam kde stlacim lave tlacitko</li>
+              <li>Koniec ciary je tam kde pustim tlacitko</li>
+              <li>Pocas vytvarania aj editovania vidno ciaru v realnom case</li>
+              <li>Nastrojom move mozno posuvat celu ciaru alebo konce ciar (ak som 5px od zaciatku/konca)</li>
+              <li>Takmer vodorovna/zvysla ciara sa konvertuje na dokonale zvyslu/vodorovnu (jak pri vytvarani,
+                tak pri editacii)</li>
+              <li>V rezime pridavania ciar sa ciara neda editovat, ak kliknete na koniec existujucej ciary (alebo kdekolvek inam) zacne
+                to pridavat novu ciaru</li>
+            </ul>
+          </li>
+          <li>Fokus inputov
+            <ul>
+              <li>Ak je fokusovany input a zvolime nejaku inu polozku, input ostane fokusovany a text v nom sa
+              cely oznaci</li>
+              <li>Pocas panu je fokus neaktivny aby do neho v linuxe nevkladalo clipboard</li>
+            </ul>
+          </li>
+          <li>Posuvanie zvolenych objektov kurzorovymi sipkami
+            <ul>
+              <li class="broken" title="kvoli posuvaniu kurzora v inputoch">Left,Right,Up,Down posuva origin (X,Y) zvolenych items o 1px</li>
+              <li class="broken" title="aktualne 1px kvoli predoslej chybe">Ctrl+(Left,Right,Up,Down) posuva origin (X,Y) zvolenych items o 8px</li>
+              <li>Ak stlacim sipku dole/hore, posuvanie celej stranky je potlacene</li>
+            </ul>
+          </li>
+          <li>Zmena velkosti objektov kurzorovymi sipkami ked drzim shift
+            <ul>
+              <li>Text: up/down pri drzani shiftu zvacsuje/zmensuje pismo</li>
+              <li>Line: ak je viditelne oznacena handle (cyan) tak sipky menia polohu tejto handle</li>
+            </ul>
+          </li>
+        </ul>
+
+     </div>
+
+    </div>
+
+
+    <canvas width="1000" height="1000" id="canvas"
+    onmousedown="if (mouse_handler) return mouse_handler.canvasOnMouseDown(this,event); return false;"
+    onmouseup="if (mouse_handler) return mouse_handler.canvasOnMouseUp(this,event)"
+    onmousemove="if (mouse_handler) return mouse_handler.canvasOnMouseMove(this,event)"
+    onmousewheel="if (mouse_handler) return mouse_handler.canvasOnMouseWheel(this,event); return false;"
+    ></canvas>
+
+  </body>
+</html>
+
