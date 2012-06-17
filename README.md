@@ -35,3 +35,4 @@ History
 
 Todo
 ----
+- When resizing text using shift+arrows, text width is not updated
