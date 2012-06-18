@@ -36,3 +36,7 @@ History
 Todo
 ----
 - When resizing text using shift+arrows, text width is not updated
+- Moving objects with plain arrows was temporarily disabled to prevent moving
+  object when focus is in input and I press arrows to move cursor within input.
+  Reason for this interference is because input never really loose focus because
+  canvas cannot gain focus.
