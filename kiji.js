@@ -226,6 +226,7 @@ function setTool(AThis) {
   document.getElementById('Help').setAttribute('class',(AThis.id=='Help')?'selected':'');
   // show/hide help
   document.getElementById('HelpContent').style.display = (tool=='Help')?'block':'none';
+  console.log('tool='+tool);
 }
 
 function attributesShow(AItem) {

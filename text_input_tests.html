@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <title>Text input tests</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8">
+    <!-- link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" / -->
+    <style>
+    body {
+      max-width: 50em;
+      margin: auto;
+      font-family: dejavu sans;
+      font-size: 16px;
+    }
+    h2 {
+      color: orange;
+    }
+    h2:after {
+      content: " (untested)";
+    }
+    h2.ok {
+      color: green;
+    }
+    h2.ok:after {
+      content: " (OK)";
+    }
+    h2.broken {
+      color: red;
+    }
+    h2.broken:after {
+      content: " (BROKEN)";
+    }
+    h2.disabled {
+      color: purple;
+    }
+    h2.disabled:after {
+      content: " (DISABLED)";
+    }
+    </style>
+  </head>
+  <!-- script src="index.js"></script -->
+  <body>
+
+    <h1>Text input tests</h1>
+
+    <p>This page shows what features HTML Input element has and so that they <b>must</b> be preserved in
+    kiji, and how they interfere or not with kiji's own shortcuts.</p>
+
+
+    <h2 class="ok">Typing any letters</h2>
+
+    <p><input type="text" value="" />
+    You can type any UTF-8 letter into text input. Just press the key and it works. Also combined characters,
+    like "č" or "Á" (press ´, then shift, then "a") or "9" or "{" or "&gt;". You can also type any combination
+    like \n, or &amp;lt; and you see whatever you wrote, that is \n or &amp;lt;
+    </p>
+
+    <h2 class="ok">Shift + letter</h2>
+
+    <p><input type="text" value="some text" />
+    While holding shift, you can type capital letters.
+    </p>
+
+    <h2 class="ok">Left/right arrows</h2>
+
+    <p><input type="text" value="some text" />
+    Using left or right arrow, you can move cursor inside input. Then you can insert characters where the cursor is.
+    </p>
+
+    <h2 class="ok">Home and end keys</h2>
+
+    <p><input type="text" value="some text" />
+    Pressing home set cursor to begining of input
+    </p>
+
+    <h2 class="ok">CapsLock on + letters</h2>
+
+    <p><input type="text" value="" />
+    While CapsLock is on, while you press letters they are inserted as capitals.
+    </p>
+
+    <h2 class="broken">Ctrl + left/right arrows</h2>
+
+    <p><input type="text" value="some words you can skip" />
+    While holding ctrl, you can move cursor to next/previous word inside input, but item itself does not move!
+    </p>
+
+    <h2 class="broken">Shift + left/right arrows</h2>
+
+    <p><input type="text" value="some words you can select" />
+    While holding shift, you can select part of text inside input, but item itself does not move by 1px!
+    </p>
+
+    <h2 class="disabled">Moving selected element by 1px</h2>
+
+    <p><input type="text" value="hello world" />
+    While holding shift, you can move item by 1px by pressing arrow keys (left, right, up, down).
+    </p>
+
+    <h2 class="broken">Ctrl + Shift + left/right arrows</h2>
+
+    <p><input type="text" value="select entire words here" />
+    While holding ctrl and shift, you should be able to select entire words by pressing left/right arrows.
+    </p>
+
+    <h2 class="ok">Ctrl+a selects entire text</h2>
+
+    <p><input type="text" value="hello world" />
+    While holding ctrl, pressing "a" should select entire text in input, while not selecting all items.
+    </p>
+
+  </body>
+</html>

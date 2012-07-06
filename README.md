@@ -37,7 +37,7 @@ History
 
 Todo
 ----
-- in kiji hit button "Help" to see actual todo list
+- Shift+sipka v inpute caption neoznacuje text
 - Moving objects with plain arrows was temporarily disabled to prevent moving
   object when focus is in input and I press arrows to move cursor within input.
   Reason for this interference is because input never really loose focus because
