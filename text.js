@@ -68,7 +68,7 @@ function textWidth(ACanvas,AContext,ACaption,AFont,AHeight) {
   return 1*AContext.measureText(ACaption).width;
 }
 
-function textResize(AItem,ALeft,ARight,AUp,ADown) {
+function textResize(ACanvas,AContext,AItem,ALeft,ARight,AUp,ADown) {
   // text resize using arrows while holding shift
   // NOTE: currently only up and down are used, because width is fixed to caption width
   // decrease height
@@ -81,5 +81,7 @@ function textResize(AItem,ALeft,ARight,AUp,ADown) {
   if (AUp) {
     AItem.Height++;
   }
+  // recalculate new width
+  AItem.Width = textWidth(ACanvas,AContext,AItem.Caption,AItem.Font,AItem.Height)
 }
 

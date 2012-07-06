@@ -172,7 +172,7 @@ function bodyOnKeyDown(AThis,AEvent) {
       if (report[i].Selected) {
         switch (report[i].Type) {
           case "Line": lineResize(report[i],left,right,up,down,mouse_handler.start_handle); break;
-          case "Text": textResize(report[i],left,right,up,down); break;
+          case "Text": textResize(canvas,context,report[i],left,right,up,down); break;
         }
       }
     }
