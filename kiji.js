@@ -9,9 +9,11 @@ var
   zoom = 1.0;
   tool = 'Move';
   mouse_handler = null;
+/*
   focused_input = null;
   focused_input_old = null;
   focused_input_no_del = null;
+*/
 
 function bodyOnLoad() {
   // initialize form
@@ -130,14 +132,16 @@ function toolUndo() {
 function bodyOnKeyDown(AThis,AEvent) {
   // special keys (like del)
   //console.log(AEvent);
+  return true;
 
   // ctrl+z = undo
   if ( AEvent.ctrlKey && (AEvent.keyCode==90) )
     toolUndo();
 
   // delete = delete selected items
-  console.log('bodyOnKeyDown(keyCode='+AEvent.keyCode+', shiftKey='+AEvent.shiftKey+', ctrlKey='+AEvent.ctrlKey+', focus='+(focused_input?focused_input.id:null)+')');
-  if ((!focused_input)&&(AEvent.keyCode == 46)&&(itemSelectedCount(report)>0)) {
+  console.log('bodyOnKeyDown(keyCode='+AEvent.keyCode+', shiftKey='+AEvent.shiftKey+', ctrlKey='+AEvent.ctrlKey+')');
+  // ', focus='+(focused_input?focused_input.id:null)+
+  if (/*(!focused_input)&&*/(AEvent.keyCode == 46)&&(itemSelectedCount(report)>0)) {
     console.log('DEL');
     document.activeElement = canvas;
     undoPush(report);
@@ -152,9 +156,11 @@ function bodyOnKeyDown(AThis,AEvent) {
   // esc = if input element is focused, unfocus it (so that DEL will work)
   if (AEvent.keyCode==27) {
     console.log('ESC');
+    /*
     focused_input_old = null;
     focused_input = null;
     focused_input_no_del = null;
+    */
     document.getElementById(tool).focus();
   }
 
@@ -179,7 +185,7 @@ function bodyOnKeyDown(AThis,AEvent) {
     // done
     redraw('bodyOnKeyDown 2');
     attributesShow(current_item);
-    return false;
+    return true;
   } else {
     // arrow movements (1px normal, 8px when ctrl is pressed)
     if (AEvent.ctrlKey) {   // temporal workaround - to prevent movement of item when cursor moves in input
@@ -246,9 +252,11 @@ function attributesShow(AItem) {
 
 function attrOnFocus(AThis) {
   console.log('attrOnFocus('+AThis.id+')');
+/*
   focused_input_old = focused_input;
   focused_input = AThis;
   focused_input_no_del = AThis; // this is not nulled for "DEL" workaround
+*/
 }
 
 function attrOnInput(AThis,AEvent) {
@@ -292,13 +300,13 @@ function backup(AReport) {
 
 function attrOnMouseDown(AThis,AEvent) {
   // workaround for this: select none, f5, select text, click caption, select text, click caption, del - entire text is deleted instead of letter in caption
-  focused_input = AThis;
+  //focused_input = AThis;
   // workarond to prevent linux middle button clipboard to interfere with e.g. pasting thincknes into input while pan
   return true;
 }
 
 function attrOnKeyDown(AThis,AEvent) {
   // workaround for DEL to erase entire item instead of character in caption
-  focused_input = AThis;
+  //focused_input = AThis;
 }
 

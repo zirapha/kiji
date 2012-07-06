@@ -71,7 +71,7 @@ function MouseHandler(ACanvas,AContext,AReport) {
     attributesShow(this.current);
 
     // if any attribute input is selected, select its value
-    var fo = focused_input_no_del;
+/*    var fo = focused_input_no_del;
     if (fo) {
       fo.select();
       //console.log(fo.id+' select');
@@ -89,6 +89,7 @@ function MouseHandler(ACanvas,AContext,AReport) {
       //console.log('workaround: linux clipboard middle button');
       return true;
     }
+*/
 
     return false;
   }

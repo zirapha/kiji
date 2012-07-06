@@ -45,6 +45,11 @@
     <p>This page shows what features HTML Input element has and so that they <b>must</b> be preserved in
     kiji, and how they interfere or not with kiji's own shortcuts.</p>
 
+    <p>Goal is to keep inputs focused (e.g. Caption, or Left, or Font), while you selecting various
+    items in canvas. This works because canvas is not focusable, but is in conflict with
+    usefull shortcuts we want to use in canvas (e.g. Del, Arrows, ...) which must also works in input.</p>
+
+    <p>Note that you must test it here (as reference) and also in kiji (testing) and they must behave the same.</p>
 
     <h2 class="ok">Typing any letters</h2>
 
@@ -106,6 +111,12 @@
 
     <p><input type="text" value="hello world" />
     While holding ctrl, pressing "a" should select entire text in input, while not selecting all items.
+    </p>
+
+    <h2 class="">Delete and backspace</h2>
+
+    <p><input type="text" value="some text you can delete" />
+    Pressing delete or backspace while inside input delete text, not selected items.
     </p>
 
   </body>
