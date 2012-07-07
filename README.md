@@ -30,15 +30,11 @@ PDF generation.
 
 History
 -------
+- 2012/07/07 - Fixed focus issues
 - 2012/07/06 - Fixed text width update after text resize using shift+up/down
-             -
 - 2012/06/15 - First working demo (lines, texts, basic editing)
 - 2012/05/24 - Development started
 
 Todo
 ----
-- Shift+sipka v inpute caption neoznacuje text
-- Moving objects with plain arrows was temporarily disabled to prevent moving
-  object when focus is in input and I press arrows to move cursor within input.
-  Reason for this interference is because input never really loose focus because
-  canvas cannot gain focus.
+- See kiji.html (press Help button to see actual todo)
