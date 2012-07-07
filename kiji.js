@@ -10,11 +10,6 @@ var
   tool = 'Move';
   mouse_handler = null;
   attributes_focused = false;
-/*
-  focused_input = null;
-  focused_input_old = null;
-  focused_input_no_del = null;
-*/
 
 function bodyOnLoad() {
   // initialize form
@@ -134,7 +129,9 @@ function bodyOnKeyDown(AThis,AEvent) {
   // special keys (like del)
   //console.log(AEvent);
 
-  // if any input element is focused, disable items shortcuts because they would interfere with text input key bindings (arrows, ctrl+arrows, ctrl+shift+arrows, ctrl+a, del, ...)
+  // if any input element is focused, disable items shortcuts because they would
+  // interfere with text input key bindings (arrows, ctrl+arrows, ctrl+shift+arrows,
+  // ctrl+a, del, ...)
   if (attributes_focused)
     return true;
 
@@ -144,8 +141,7 @@ function bodyOnKeyDown(AThis,AEvent) {
 
   // delete = delete selected items
   console.log('bodyOnKeyDown(keyCode='+AEvent.keyCode+', shiftKey='+AEvent.shiftKey+', ctrlKey='+AEvent.ctrlKey+')');
-  // ', focus='+(focused_input?focused_input.id:null)+
-  if (/*(!focused_input)&&*/(AEvent.keyCode == 46)&&(itemSelectedCount(report)>0)) {
+  if ((AEvent.keyCode == 46)&&(itemSelectedCount(report)>0)) {
     console.log('DEL');
     document.activeElement = canvas;
     undoPush(report);
@@ -179,37 +175,34 @@ function bodyOnKeyDown(AThis,AEvent) {
     redraw('bodyOnKeyDown 2');
     attributesShow(current_item);
     return true;
-  } else {
-    // arrow movements (1px normal, 8px when ctrl is pressed)
-    if (AEvent.ctrlKey) {   // temporal workaround - to prevent movement of item when cursor moves in input
-      var delta = AEvent.ctrlKey ? 1 : 8;
-      // up
-      if (AEvent.keyCode==38) {
-        itemMoveSelected(report,0,-delta);
-        redraw('bodyOnKeyDown 3');
-        return true;
-      }
-      // down
-      if (AEvent.keyCode==40) {
-        itemMoveSelected(report,0,delta);
-        redraw('bodyOnKeyDown 4');
-        return true;
-      }
-      // left
-      if (AEvent.keyCode==37) {
-        itemMoveSelected(report,-delta,0);
-        redraw('bodyOnKeyDown 5');
-        return true;
-      }
-      // right
-      if (AEvent.keyCode==39) {
-        itemMoveSelected(report,delta,0);
-        redraw('bodyOnKeyDown 6');
-        return true;
-      }
-    } else {
-      //
-      return true;
+  }
+
+  // arrow movements (1px normal, 8px when ctrl is pressed)
+  if (arrows) {
+    var delta = AEvent.ctrlKey ? 8 : 1;
+    // up
+    if (up) {
+      itemMoveSelected(report,0,-delta);
+      redraw('bodyOnKeyDown 3');
+      return false;
+    }
+    // down
+    if (down) {
+      itemMoveSelected(report,0,delta);
+      redraw('bodyOnKeyDown 4');
+      return false;
+    }
+    // left
+    if (down) {
+      itemMoveSelected(report,-delta,0);
+      redraw('bodyOnKeyDown 5');
+      return false;
+    }
+    // right
+    if (right) {
+      itemMoveSelected(report,delta,0);
+      redraw('bodyOnKeyDown 6');
+      return false;
     }
   }
 
@@ -244,17 +237,14 @@ function attributesShow(AItem) {
 }
 
 function attrOnFocus(AThis) {
+  // attribute input get focus
   console.log('attrOnFocus('+AThis.id+')');
   document.getElementById('attributes').setAttribute('class','focus');
   attributes_focused = true;
-/*
-  focused_input_old = focused_input;
-  focused_input = AThis;
-  focused_input_no_del = AThis; // this is not nulled for "DEL" workaround
-*/
 }
 
 function attrOnBlur(AThis) {
+  // attribute input lost focus
   console.log('attrOnBlur('+AThis.id+')');
   document.getElementById('attributes').setAttribute('class','');
   attributes_focused = false;
@@ -300,15 +290,12 @@ function backup(AReport) {
 }
 
 function attrOnMouseDown(AThis,AEvent) {
-  // workaround for this: select none, f5, select text, click caption, select text, click caption, del - entire text is deleted instead of letter in caption
-  //focused_input = AThis;
-  // workarond to prevent linux middle button clipboard to interfere with e.g. pasting thincknes into input while pan
+  // workarond: linux middle button clipboard would paste text into input while pan
   return true;
 }
 
 function attrOnKeyDown(AThis,AEvent) {
-  // workaround for DEL to erase entire item instead of character in caption
-  //focused_input = AThis;
+  // special shortcuts when attribute input is selected
 
   // esc = if input element is focused, unfocus it (switch to items editing)
   if (AEvent.keyCode==27) {

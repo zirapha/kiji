@@ -70,26 +70,9 @@ function MouseHandler(ACanvas,AContext,AReport) {
     // show attributes of recently selected item
     attributesShow(this.current);
 
-    // if any attribute input is selected, select its value
-/*    var fo = focused_input_no_del;
-    if (fo) {
-      fo.select();
-      //console.log(fo.id+' select');
-    }
-
-    // workaround: mark that input is no longer "active" so that DEL would work as expected
-    if (focused_input) {
-      focused_input_old = focused_input;
-      focused_input_no_del = focused_input;
-      focused_input = null;
-    }
-
     // workaround for linux clipboard
-    if (this.start_button == 1) {
-      //console.log('workaround: linux clipboard middle button');
+    if (this.start_button == 1)
       return true;
-    }
-*/
 
     return false;
   }
@@ -163,19 +146,8 @@ function MouseHandler(ACanvas,AContext,AReport) {
     }
 
     // button is no longer down
-    var o = this.start_button;
     this.start_button = -1;
 
-    // workaround for linux clipboard and pan (focus some input and while you pan with middle button, it will paste text from clipboard to input)
-    if (o == 1) {
-      //console.log('focused_input='+focused_input_old);
-      var fo = focused_input_old;
-      if (fo) {
-        fo.focus();
-        fo.select();
-      }
-      return true;
-    }
     return false;
   }
 

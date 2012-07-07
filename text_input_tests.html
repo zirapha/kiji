@@ -119,5 +119,13 @@
     Pressing delete or backspace while inside input delete text, not selected items.
     </p>
 
+    <h2 class="">Linux mouse clipboard interfere with pan</h2>
+
+    <p><input type="text" value="some text" />
+    Put something in mouse clipboard, then focus input, then try to pan. Canvas does not have focus, so
+    it would put whatever was in the mouse clipboard into input. There is code in kiji to prevent this,
+    so it should work.
+    </p>
+
   </body>
 </html>

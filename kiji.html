@@ -249,12 +249,11 @@
 
           <li>Ciaru mozno kreslit lubovolnym smerom (z lava doprava, z prava dolava, z hora dole, z dola hore)</li>
           <li>V rezime Move ked nastavim focus do inputu tak sa tento focus uchovava aby bolo mozne napr. klikat na texty a menit caption bez opakovaneho klikania na input caption. Zrusit fokus mozno stlacenim ESC.</li>
-          <li class="broken" title="Ak raz ma input focus neviem ho zrusit, zatial to riesim escom, neviem ci je to dobre">Ak su zvolene polozky a nie je priamo fokusovany input objekt inspektora tak sa stlacenim DEL polozky vymazu</li>
-          <li class="broken" title="Toto asi vzajomne interferuje s poziadavkou aby uchovaval fokus pri klikani na item">Ak je fokusovany nejaky input a kliknem na canvas tak sa akoze strati fokus toho inputu (hoci realne tam
-            ostane lebo canvas nie je fokusovatelny komponent) a je mozne mazat polozky</li>
+          <li>Ak su zvolene polozky a nie je priamo fokusovany input objekt inspektora tak sa stlacenim DEL polozky vymazu</li>
+          <li>Ak ziaden input nie je fokusovany (pozadie je biele) tak DEL maze polozky, sipky ich posuvaju, atd...</li>
           <li>Mazanie objektov
             <ul>
-              <li class="broken" title="nefunguje to ked je fokusovany input, momentalne treba stlacit esc">Oznacene objekty sa mazu klavesou DEL</li>
+              <li>Oznacene objekty sa mazu klavesou DEL</li>
               <li>Ak je fokusovany nejaky input a stlacim DEL, funguje ako normalna klavesa</li>
               del a maze nasl. znak v inpute, nie zvolenu item!</li>
               <li>Zrusim oznacenie, F5, oznacim text, kliknem na caption, kliknem na text, kliknem na caption,
@@ -276,15 +275,15 @@
           </li>
           <li>Fokus inputov
             <ul>
-              <li>Ak je fokusovany input a zvolime nejaku inu polozku, input ostane fokusovany a text v nom sa
+              <li class="broken" title="neoznacuje sa cely text">Ak je fokusovany input (pozadie OI je modre) a zvolime nejaku inu polozku, input ostane fokusovany a text v nom sa
               cely oznaci</li>
-              <li>Pocas panu je fokus neaktivny aby do neho v linuxe nevkladalo clipboard</li>
+              <li>Pocas panu je fokus neaktivny aby do neho v linuxe nevkladalo mysaci clipboard</li>
             </ul>
           </li>
           <li>Posuvanie zvolenych objektov kurzorovymi sipkami
             <ul>
-              <li class="broken" title="kvoli posuvaniu kurzora v inputoch">Left,Right,Up,Down posuva origin (X,Y) zvolenych items o 1px</li>
-              <li class="broken" title="aktualne 1px kvoli predoslej chybe">Ctrl+(Left,Right,Up,Down) posuva origin (X,Y) zvolenych items o 8px</li>
+              <li>Left,Right,Up,Down posuva origin (X,Y) zvolenych items o 1px</li>
+              <li>Ctrl+(Left,Right,Up,Down) posuva origin (X,Y) zvolenych items o 8px</li>
               <li>Ak stlacim sipku dole/hore, posuvanie celej stranky je potlacene</li>
             </ul>
           </li>
