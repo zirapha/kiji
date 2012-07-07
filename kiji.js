@@ -9,6 +9,7 @@ var
   zoom = 1.0;
   tool = 'Move';
   mouse_handler = null;
+  attributes_focused = false;
 /*
   focused_input = null;
   focused_input_old = null;
@@ -132,7 +133,10 @@ function toolUndo() {
 function bodyOnKeyDown(AThis,AEvent) {
   // special keys (like del)
   //console.log(AEvent);
-  return true;
+
+  // if any input element is focused, disable items shortcuts because they would interfere with text input key bindings (arrows, ctrl+arrows, ctrl+shift+arrows, ctrl+a, del, ...)
+  if (attributes_focused)
+    return true;
 
   // ctrl+z = undo
   if ( AEvent.ctrlKey && (AEvent.keyCode==90) )
@@ -151,17 +155,6 @@ function bodyOnKeyDown(AThis,AEvent) {
     redraw('bodyOnKeyDown 1');
     attributesShow(null);
     return true;
-  }
-
-  // esc = if input element is focused, unfocus it (so that DEL will work)
-  if (AEvent.keyCode==27) {
-    console.log('ESC');
-    /*
-    focused_input_old = null;
-    focused_input = null;
-    focused_input_no_del = null;
-    */
-    document.getElementById(tool).focus();
   }
 
   // was arrows used
@@ -252,11 +245,19 @@ function attributesShow(AItem) {
 
 function attrOnFocus(AThis) {
   console.log('attrOnFocus('+AThis.id+')');
+  document.getElementById('attributes').setAttribute('class','focus');
+  attributes_focused = true;
 /*
   focused_input_old = focused_input;
   focused_input = AThis;
   focused_input_no_del = AThis; // this is not nulled for "DEL" workaround
 */
+}
+
+function attrOnBlur(AThis) {
+  console.log('attrOnBlur('+AThis.id+')');
+  document.getElementById('attributes').setAttribute('class','');
+  attributes_focused = false;
 }
 
 function attrOnInput(AThis,AEvent) {
@@ -308,5 +309,12 @@ function attrOnMouseDown(AThis,AEvent) {
 function attrOnKeyDown(AThis,AEvent) {
   // workaround for DEL to erase entire item instead of character in caption
   //focused_input = AThis;
+
+  // esc = if input element is focused, unfocus it (switch to items editing)
+  if (AEvent.keyCode==27) {
+    console.log('ESC');
+    document.getElementById(tool).focus();
+  }
+
 }
 
