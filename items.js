@@ -146,14 +146,14 @@ function itemSelect(AReport,AX,AY,AThreshold,AAddToSelection) {
   return s > 0;
 }
 
-function itemDraw(ACanvas,AContext,ADx,ADy,AItem) {
+function itemDraw(ADx,ADy,AItem) {
   // draw items respecting their type
   // Text
   if (AItem.Type == 'Text')
-    textDrawItem(ACanvas,AContext,ADx,ADy,AItem);
+    textDrawItem(ADx,ADy,AItem);
   // Line
   if (AItem.Type == 'Line')
-    lineDrawItem(ACanvas,AContext,ADx,ADy,AItem);
+    lineDrawItem(ADx,ADy,AItem);
 }
 
 

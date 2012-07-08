@@ -1,125 +1,128 @@
 // main js code
 
 var
-  report = [];
-  canvas = null;
-  context = null;
-  bg = null;
-  white = false;
-  zoom = 1.0;
-  tool = 'Move';
-  mouse_handler = null;
-  attributes_focused = false;
+  kiji = new Object();
+  kiji.report = [];
+  kiji.canvas = null;
+  kiji.context = null;
+  kiji.bg = null;
+  kiji.white = null;
+  kiji.zoom = 1.0;
+  kiji.tool = 'Move';
+  kiji.mouse_handler = null;
+  kiji.attributes_focused = false;
+  kiji.dx = 0;
+  kiji.dy = 0;
 
 function bodyOnLoad() {
   // initialize form
   // canvas
-  canvas = document.getElementById('canvas');
-  context = canvas.getContext('2d');
+  kiji.canvas = document.getElementById('canvas');
+  kiji.context = canvas.getContext('2d');
   // load background
-  bg = new Image();
-  bg.onload = bgOnLoad;
-  bg.src = 'report1.png';
+  kiji.bg = new Image();
+  kiji.bg.onload = bgOnLoad;
+  kiji.bg.src = 'report1.png';
   // restore bg pan
-  dx = 1*localStorage.getItem('KIJI_DX');
-  dy = 1*localStorage.getItem('KIJI_DY');
-  zoom = 1.0*localStorage.getItem('KIJI_ZOOM');
-  if (zoom <= 0) zoom = 1;
+  kiji.dx = 1*localStorage.getItem('KIJI_DX');
+  kiji.dy = 1*localStorage.getItem('KIJI_DY');
+  kiji.zoom = 1.0*localStorage.getItem('KIJI_ZOOM');
+  if (kiji.zoom <= 0) kiji.zoom = 1;
   // load report from local storage
   if (localStorage.getItem('KIJI_REPORT')) {
-    report = JSON.parse(localStorage.getItem('KIJI_REPORT'));
+    kiji.report = JSON.parse(localStorage.getItem('KIJI_REPORT'));
     // I tend to screw things during development, so I push clean report straight into undo
-    undoPush(report);
+    undoPush(kiji.report);
   }
   // mouse handler
-  mouse_handler = new MouseHandler(canvas,context,report);
+  kiji.mouse_handler = new MouseHandler();
   // fill selected item to inputs
-  current_item = itemFirstSelected(report);
+  current_item = itemFirstSelected(kiji.report);
   this.current = current_item;
   attributesShow(current_item);
   // initial tool = move
-  setTool(document.getElementById(tool));
+  setTool(document.getElementById(kiji.tool));
 }
 
 function bodyOnUnload() {
   // remember basic settings (probably only during development so I don't have to scroll and pan every refresh)
-  localStorage.setItem('KIJI_DX',dx);
-  localStorage.setItem('KIJI_DY',dy);
-  localStorage.setItem('KIJI_ZOOM',zoom);
-  localStorage.setItem('KIJI_REPORT',JSON.stringify(report));
+  localStorage.setItem('KIJI_DX',kiji.dx);
+  localStorage.setItem('KIJI_DY',kiji.dy);
+  localStorage.setItem('KIJI_ZOOM',kiji.zoom);
+  localStorage.setItem('KIJI_REPORT',JSON.stringify(kiji.report));
 }
 
 function bgOnLoad() {
   // when background image is loaded set propper canvas resolution
   //console.log('bgOnLoad(): bg.w='+bg.width+' bg.h='+bg.height);
-  canvas.width = bg.width / zoom;
-  canvas.height = bg.height / zoom;
+  kiji.canvas.width = kiji.bg.width / kiji.zoom;
+  kiji.canvas.height = kiji.bg.height / kiji.zoom;
   redraw('bgOnLoad');
 }
 
 function updateZoom(AThis,AEvent,AKoefMul,AKoefAdd) {
   // arbitrary zoom
-  //console.log('zoom('+AKoefMul+'*'+zoom+'+'+AKoefAdd+'): zoom='+zoom+' cw='+canvas.width+' ch='+canvas.height+' dx='+dx+' dy='+dy);
+  //console.log('zoom('+AKoefMul+'*'+zoom+'+'+AKoefAdd+'): zoom='+zoom+' cw='+kiji.canvas.width+' ch='+kiji.canvas.height+' dx='+kiji.dx+' dy='+kiji.dy);
   // qx,qy = real coords on paper (background), e.g. 200,400 control point
   var cx = AEvent.pageX-AThis.offsetLeft;
   var cy = AEvent.pageY-AThis.offsetTop;
-  var qx = cx*(canvas.width/canvas.clientWidth)-dx;
-  var qy = cy*(canvas.height/canvas.clientHeight)-dy;
+  var qx = cx*(kiji.canvas.width/kiji.canvas.clientWidth)-kiji.dx;
+  var qy = cy*(kiji.canvas.height/kiji.canvas.clientHeight)-kiji.dy;
   //console.log('    cx='+cx+' cy='+cy+' qx='+qx+' qy='+qy);
 
   // actual zoom
-  zoom = AKoefMul*zoom + AKoefAdd;
-  if (zoom < 0.5) {
-    zoom = 0.5;
+  kiji.zoom = AKoefMul*kiji.zoom + AKoefAdd;
+  if (kiji.zoom < 0.5) {
+    kiji.zoom = 0.5;
     return false;
   }
-  if (zoom > 20) {
-    zoom = 20;
+  if (kiji.zoom > 20) {
+    kiji.zoom = 20;
     return false;
   }
-  canvas.width = bg.width / zoom;
-  canvas.height = bg.height / zoom;
+  kiji.canvas.width = kiji.bg.width / kiji.zoom;
+  kiji.canvas.height = kiji.bg.height / kiji.zoom;
 
   // now return pan back to origin, so that zoomed point remain under mouse cursor
-  dx = -qx + cx*(canvas.width/canvas.clientWidth);
-  dy = -qy + cy*(canvas.height/canvas.clientHeight);
-  //console.log('    dx='+dx+' dy='+dy);
+  kiji.dx = -qx + cx*(kiji.canvas.width/kiji.canvas.clientWidth);
+  kiji.dy = -qy + cy*(kiji.canvas.height/kiji.canvas.clientHeight);
+  //console.log('    dx='+kiji.dx+' dy='+kiji.dy);
 
   redraw('updateZoom');
 }
 
 function zoom100() {
   // restore zoom to 100% and move report to origin
-  zoom = 1.0;
-  canvas.width = bg.width / zoom;
-  canvas.height = bg.height / zoom;
-  dx = 0;
-  dy = 0;
+  kiji.zoom = 1.0;
+  kiji.canvas.width = kiji.bg.width / kiji.zoom;
+  kiji.canvas.height = kiji.bg.height / kiji.zoom;
+  kiji.dx = 0;
+  kiji.dy = 0;
   redraw('zoom100');
 }
 
 function redraw(AIdentifier) {
   // redraw entire canvas
-  console.log('redraw('+AIdentifier+'): c.w='+canvas.width+' c.h='+canvas.height+' bg.w='+bg.width+' bg.h='+bg.height+' dx='+dx+' dy='+dy)
+  console.log('redraw('+AIdentifier+'): c.w='+kiji.canvas.width+' c.h='+kiji.canvas.height+' bg.w='+kiji.bg.width+' bg.h='+kiji.bg.height+' dx='+kiji.dx+' dy='+kiji.dy)
   // clear canvas
-  context.clearRect(0,0,canvas.width,canvas.height);
+  kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
   // background
-  context.fillRect();
-  context.drawImage(bg, dx, dy);
+  kiji.context.fillRect();
+  kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
   // 90% white overlay
-  if (white) {
-    context.fillStyle = 'rgba(255,255,255,0.90)';
-    context.fillRect(dx, dy, bg.width, bg.height);
+  if (kiji.white) {
+    kiji.context.fillStyle = 'rgba(255,255,255,0.90)';
+    kiji.context.fillRect(kiji.dx, kiji.dy, kiji.bg.width, kiji.bg.height);
   }
   // report items
-  for (i=0; i<report.length; i++)
-    itemDraw(canvas,context,dx,dy,report[i]);
+  for (i=0; i<kiji.report.length; i++)
+    itemDraw(kiji.dx,kiji.dy,kiji.report[i]);
 }
 
 function toolUndo() {
   // undo last change
   if (undoAvailable()) {
-    report = undoPop(report);
+    kiji.report = undoPop(kiji.report);
     redraw('toolUndo');
   } else
     console.log('undo: not available');
@@ -132,7 +135,7 @@ function bodyOnKeyDown(AThis,AEvent) {
   // if any input element is focused, disable items shortcuts because they would
   // interfere with text input key bindings (arrows, ctrl+arrows, ctrl+shift+arrows,
   // ctrl+a, del, ...)
-  if (attributes_focused)
+  if (kiji.attributes_focused)
     return true;
 
   // ctrl+z = undo
@@ -141,13 +144,13 @@ function bodyOnKeyDown(AThis,AEvent) {
 
   // delete = delete selected items
   console.log('bodyOnKeyDown(keyCode='+AEvent.keyCode+', shiftKey='+AEvent.shiftKey+', ctrlKey='+AEvent.ctrlKey+')');
-  if ((AEvent.keyCode == 46)&&(itemSelectedCount(report)>0)) {
+  if ((AEvent.keyCode == 46)&&(itemSelectedCount(kiji.report)>0)) {
     console.log('DEL');
-    document.activeElement = canvas;
-    undoPush(report);
-    itemDeleteSelected(report);
+    document.activeElement = kiji.canvas;
+    undoPush(kiji.report);
+    itemDeleteSelected(kiji.report);
     current_item = null;
-    mouse_handler.current = null;
+    kiji.mouse_handler.current = null;
     redraw('bodyOnKeyDown 1');
     attributesShow(null);
     return true;
@@ -163,11 +166,11 @@ function bodyOnKeyDown(AThis,AEvent) {
   // shift+arrows changes item size
   if (AEvent.shiftKey && arrows) {
     // text: up/down changes Height
-    for (i=0; i<report.length; i++) {
-      if (report[i].Selected) {
-        switch (report[i].Type) {
-          case "Line": lineResize(report[i],left,right,up,down,mouse_handler.start_handle); break;
-          case "Text": textResize(canvas,context,report[i],left,right,up,down); break;
+    for (i=0; i<kiji.report.length; i++) {
+      if (kiji.report[i].Selected) {
+        switch (kiji.report[i].Type) {
+          case "Line": lineResize(kiji.report[i],left,right,up,down,kiji.mouse_handler.start_handle); break;
+          case "Text": textResize(kiji.report[i],left,right,up,down); break;
         }
       }
     }
@@ -182,25 +185,25 @@ function bodyOnKeyDown(AThis,AEvent) {
     var delta = AEvent.ctrlKey ? 8 : 1;
     // up
     if (up) {
-      itemMoveSelected(report,0,-delta);
+      itemMoveSelected(kiji.report,0,-delta);
       redraw('bodyOnKeyDown 3');
       return false;
     }
     // down
     if (down) {
-      itemMoveSelected(report,0,delta);
+      itemMoveSelected(kiji.report,0,delta);
       redraw('bodyOnKeyDown 4');
       return false;
     }
     // left
     if (down) {
-      itemMoveSelected(report,-delta,0);
+      itemMoveSelected(kiji.report,-delta,0);
       redraw('bodyOnKeyDown 5');
       return false;
     }
     // right
     if (right) {
-      itemMoveSelected(report,delta,0);
+      itemMoveSelected(kiji.report,delta,0);
       redraw('bodyOnKeyDown 6');
       return false;
     }
@@ -211,14 +214,14 @@ function bodyOnKeyDown(AThis,AEvent) {
 
 function setTool(AThis) {
   // set tool and mark it's button as selected (blue)
-  tool = AThis.id;
+  kiji.tool = AThis.id;
   document.getElementById('Move').setAttribute('class',(AThis.id=='Move')?'selected':'');
   document.getElementById('Text').setAttribute('class',(AThis.id=='Text')?'selected':'');
   document.getElementById('Line').setAttribute('class',(AThis.id=='Line')?'selected':'');
   document.getElementById('Help').setAttribute('class',(AThis.id=='Help')?'selected':'');
   // show/hide help
-  document.getElementById('HelpContent').style.display = (tool=='Help')?'block':'none';
-  console.log('tool='+tool);
+  document.getElementById('HelpContent').style.display = (kiji.tool=='Help')?'block':'none';
+  console.log('tool='+kiji.tool);
 }
 
 function attributesShow(AItem) {
@@ -240,28 +243,27 @@ function attrOnFocus(AThis) {
   // attribute input get focus
   console.log('attrOnFocus('+AThis.id+')');
   document.getElementById('attributes').setAttribute('class','focus');
-  attributes_focused = true;
+  kiji.attributes_focused = true;
 }
 
 function attrOnBlur(AThis) {
   // attribute input lost focus
   console.log('attrOnBlur('+AThis.id+')');
   document.getElementById('attributes').setAttribute('class','');
-  attributes_focused = false;
+  kiji.attributes_focused = false;
 }
 
 function attrOnInput(AThis,AEvent) {
   // user changed input, change selected item(s)
   console.log('attrOnInput: '+AThis.id+' := '+AThis.value);
-  var AReport = report;
   var r = false;
-  for(var i=0; i<AReport.length; i++)
-    if (AReport[i].Selected) {
+  for(var i=0; i<kiji.report.length; i++)
+    if (kiji.report[i].Selected) {
       switch (AThis.id) {
-        case 'attr_caption'  : textChangeCaption(canvas,context,AReport[i],AThis.value); r=true; break;
-        case 'attr_color'    : AReport[i].Color = AThis.value; r=true; break;
-        case 'attr_height'   : AReport[i].Height = 1*AThis.value; if (AReport[i].Type == 'Text') textChangeCaption(canvas,context,AReport[i],AReport[i].Caption); r=true; break;
-        case 'attr_thicknes' : AReport[i].Thicknes = 1*AThis.value; r=true; break;
+        case 'attr_caption'  : textChangeCaption(kiji.report[i],AThis.value); r=true; break;
+        case 'attr_color'    : kiji.report[i].Color = AThis.value; r=true; break;
+        case 'attr_height'   : kiji.report[i].Height = 1*AThis.value; if (kiji.report[i].Type == 'Text') textChangeCaption(kiji.report[i],kiji.report[i].Caption); r=true; break;
+        case 'attr_thicknes' : kiji.report[i].Thicknes = 1*AThis.value; r=true; break;
         default: throw "Attribute '"+AThis.id+"' change is not yet supported!";
       }
     }
@@ -300,7 +302,7 @@ function attrOnKeyDown(AThis,AEvent) {
   // esc = if input element is focused, unfocus it (switch to items editing)
   if (AEvent.keyCode==27) {
     console.log('ESC');
-    document.getElementById(tool).focus();
+    document.getElementById(kiji.tool).focus();
   }
 
 }

@@ -300,10 +300,10 @@
 
 
     <canvas width="1000" height="1000" id="canvas"
-    onmousedown="if (mouse_handler) return mouse_handler.canvasOnMouseDown(this,event); return false;"
-    onmouseup="if (mouse_handler) return mouse_handler.canvasOnMouseUp(this,event)"
-    onmousemove="if (mouse_handler) return mouse_handler.canvasOnMouseMove(this,event)"
-    onmousewheel="if (mouse_handler) return mouse_handler.canvasOnMouseWheel(this,event); return false;"
+    onmousedown="if (kiji.mouse_handler) return kiji.mouse_handler.canvasOnMouseDown(this,event); return false;"
+    onmouseup="if (kiji.mouse_handler) return kiji.mouse_handler.canvasOnMouseUp(this,event)"
+    onmousemove="if (kiji.mouse_handler) return kiji.mouse_handler.canvasOnMouseMove(this,event)"
+    onmousewheel="if (kiji.mouse_handler) return kiji.mouse_handler.canvasOnMouseWheel(this,event); return false;"
     ></canvas>
 
   </body>

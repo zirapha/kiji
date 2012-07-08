@@ -1,12 +1,7 @@
 // mouse events (down-move-up, wheel)
 
-function MouseHandler(ACanvas,AContext,AReport) {
+function MouseHandler() {
   // mouse events handler
-
-  // attributes
-  this.canvas = ACanvas;
-  this.context = AContext;
-  this.report = AReport;
 
   // recent real (paper) coordinates
   this.real_x = 0;
@@ -25,8 +20,8 @@ function MouseHandler(ACanvas,AContext,AReport) {
     // update real_x, real_y after mouse event on canvas
     var mx = AEvent.pageX-AThis.offsetLeft;
     var my = AEvent.pageY-AThis.offsetTop;
-    this.real_x = mx * (this.canvas.width / this.canvas.clientWidth) - dx;
-    this.real_y = my * (this.canvas.height / this.canvas.clientHeight) - dy;
+    this.real_x = mx * (kiji.canvas.width / kiji.canvas.clientWidth) - kiji.dx;
+    this.real_y = my * (kiji.canvas.height / kiji.canvas.clientHeight) - kiji.dy;
   }
 
 
@@ -43,11 +38,11 @@ function MouseHandler(ACanvas,AContext,AReport) {
 
     // select item
     if (this.start_button==0) {
-      if (itemSelect(this.report, this.real_x, this.real_y, 5, AEvent.shiftKey)) {
+      if (itemSelect(kiji.report, this.real_x, this.real_y, 5, AEvent.shiftKey)) {
         this.current = current_item;
       }
     }
-    this.sel_count = itemSelectedCount(this.report)
+    this.sel_count = itemSelectedCount(kiji.report)
 
     // nothing is selected
     if (this.sel_count == 0) {
@@ -62,7 +57,7 @@ function MouseHandler(ACanvas,AContext,AReport) {
     redraw('mh.canvasOnMouseDown');
 
     // if we clicked on line, detect if it is begin/middle/end of line
-    if ( (this.sel_count==1)&&(tool == 'Move') ) {
+    if ( (this.sel_count==1)&&(kiji.tool == 'Move') ) {
       this.start_handle = lineHandle(current_item, this.start_x, this.start_y);
       //console.log('lineHandle:'+this.start_handle);
     }
@@ -86,15 +81,15 @@ function MouseHandler(ACanvas,AContext,AReport) {
 
     // finish pan
     if (this.start_button==1) {
-      dx = dx + this.real_x - this.start_x;
-      dy = dy + this.real_y - this.start_y;
+      kiji.dx = kiji.dx + this.real_x - this.start_x;
+      kiji.dy = kiji.dy + this.real_y - this.start_y;
       redraw('mh.canvasOnMouseUp');
     }
 
     // finish move
-    if (tool == 'Move') {
+    if (kiji.tool == 'Move') {
       if ((this.start_button==0) && (this.sel_count>=0)) {
-        undoPush(this.report);
+        undoPush(kiji.report);
         // finished moving line begin
         if (this.start_handle == 1) {
           //console.log('finished moving line begin');
@@ -112,36 +107,36 @@ function MouseHandler(ACanvas,AContext,AReport) {
           lineOrtogonalize(current_item,this.start_handle);
         // finish moving normal objects or middle of line
         if (this.start_handle <= 0)
-          itemMoveSelected(this.report, this.real_x-this.start_x, this.real_y-this.start_y);
+          itemMoveSelected(kiji.report, this.real_x-this.start_x, this.real_y-this.start_y);
         // redraw
         redraw('mh.canvasOnMouseUp 2');
       }
     }
 
     // text: click where new text is supposed to be added
-    if ( (tool == 'Text') && (this.start_button == 0) ) {
+    if ( (kiji.tool == 'Text') && (this.start_button == 0) ) {
       var s = 'Caption';
-      var fs = itemFirstSelected(this.report);
+      var fs = itemFirstSelected(kiji.report);
       attributesShow(fs);
       var s = prompt('Add new text',s);
       if (s) {
-        undoPush(this.report);
+        undoPush(kiji.report);
         // add new text
-        var t = textCreate(this.canvas,this.context,s,this.real_x,this.real_y);
+        var t = textCreate(kiji.canvas,kiji.context,s,this.real_x,this.real_y);
         current_item = t;
-        report.push(t);
+        kiji.report.push(t);
       }
       redraw('mh.canvasOnMouseUp 3');
     }
 
     // line: end of line
-    if ( (tool == 'Line') && (this.start_button == 0) ) {
+    if ( (kiji.tool == 'Line') && (this.start_button == 0) ) {
       // add new line
-      undoPush(this.report);
-      var l = lineCreate(this.canvas, this.context, this.start_x, this.start_y, this.real_x, this.real_y);
+      undoPush(kiji.report);
+      var l = lineCreate(kiji.canvas, kiji.context, this.start_x, this.start_y, this.real_x, this.real_y);
       lineOrtogonalize(l);
       current_item = l;
-      report.push(l)
+      kiji.report.push(l)
       redraw('mh.canvasOnMouseUp 4');
     }
 
@@ -161,24 +156,24 @@ function MouseHandler(ACanvas,AContext,AReport) {
     // pan
     if (this.start_button==1) {
       // redraw bg on new position
-      context.clearRect(0,0,canvas.width,canvas.height);
-      context.fillRect();
-      context.drawImage(bg, dx+this.real_x-this.start_x, dy+this.real_y-this.start_y);
+      kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
+      kiji.context.fillRect();
+      kiji.context.drawImage(kiji.bg, kiji.dx+this.real_x-this.start_x, kiji.dy+this.real_y-this.start_y);
     }
 
     // draw items being moved
-    if (tool == 'Move') {
+    if (kiji.tool == 'Move') {
       if ((this.start_button==0) && (this.sel_count>=0)) {
         // background
-        context.clearRect(0,0,this.canvas.width,this.canvas.height);
-        context.fillRect();
-        context.drawImage(bg, dx, dy);
+        kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
+        kiji.context.fillRect();
+        kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
         // single line is moved differently
         if ( (current_item)&&(current_item.Type == 'Line') && (this.sel_count==1) && (this.start_handle > 0) ) {
           // move begin/all/end of single line
           // move begin if line
           if (this.start_handle==1) {
-            lineDraw(this.canvas,this.context,dx,dy,
+            lineDraw(kiji.dx,kiji.dy,
               this.real_x,
               this.real_y,
               current_item.EndX,
@@ -187,7 +182,7 @@ function MouseHandler(ACanvas,AContext,AReport) {
           }
           // move end of line
           if (this.start_handle==2) {
-            lineDraw(this.canvas,this.context,dx,dy,
+            lineDraw(kiji.dx,kiji.dy,
               current_item.X,
               current_item.Y,
               this.real_x,
@@ -196,24 +191,24 @@ function MouseHandler(ACanvas,AContext,AReport) {
           }
         } else {
           // move other items (Text)
-          var dx2 = dx + this.real_x - this.start_x;
-          var dy2 = dy + this.real_y - this.start_y;
-          for (var i=0; i<this.report.length; i++)
-            if (this.report[i].Selected) {
-              itemDraw(this.canvas,this.context,dx2,dy2,this.report[i]);
+          var dx2 = kiji.dx + this.real_x - this.start_x;
+          var dy2 = kiji.dy + this.real_y - this.start_y;
+          for (var i=0; i<kiji.report.length; i++)
+            if (kiji.report[i].Selected) {
+              itemDraw(dx2,dy2,kiji.report[i]);
             }
         }
       }
     }
 
     // redraw line while it is being added
-    if ( (tool == 'Line')&&(this.start_button==0) ) {
+    if ( (kiji.tool == 'Line')&&(this.start_button==0) ) {
       // background
-      context.clearRect(0,0,this.canvas.width,this.canvas.height);
-      context.fillRect();
-      context.drawImage(bg, dx, dy);
+      kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
+      kiji.context.fillRect();
+      kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
       // cline
-      lineDraw(this.canvas,this.context,dx,dy,
+      lineDraw(kiji.dx,kiji.dy,
         this.start_x,
         this.start_y,
         this.real_x,

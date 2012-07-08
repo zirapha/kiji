@@ -1,6 +1,6 @@
 // line
 
-function lineCreate(ACanvas,AContext,AX,AY,AEndX,AEndY) {
+function lineCreate(AX,AY,AEndX,AEndY) {
   // create new line
   var t = new Object();
   t.Type = 'Line';
@@ -14,44 +14,44 @@ function lineCreate(ACanvas,AContext,AX,AY,AEndX,AEndY) {
   return t;
 }
 
-function lineDrawItem(ACanvas,AContext,ADx,ADy,AItem) {
+function lineDrawItem(ADx,ADy,AItem) {
   // draw AB line
-  lineDraw(ACanvas,AContext,ADx,ADy,AItem.X,AItem.Y,AItem.EndX,AItem.EndY,AItem.Selected,AItem.Color,AItem.Thicknes);
+  lineDraw(ADx,ADy,AItem.X,AItem.Y,AItem.EndX,AItem.EndY,AItem.Selected,AItem.Color,AItem.Thicknes);
 }
 
-function lineDraw(ACanvas,AContext,ADx,ADy,AX1,AY1,AX2,AY2,ASelected,AColor,AThicknes,AGrip) {
+function lineDraw(ADx,ADy,AX1,AY1,AX2,AY2,ASelected,AColor,AThicknes,AGrip) {
   // line drawing from point A to B (used for new lines)
-  AContext.fillStyle = "black";
-  AContext.strokeStyle = 'black';
+  kiji.context.fillStyle = "black";
+  kiji.context.strokeStyle = 'black';
   // color by selection state
   if (ASelected) {
-    AContext.fillStyle = "rgba(0,0,255,1.0)";
-    AContext.strokeStyle = "rgba(0,0,255,1.0)";
+    kiji.context.fillStyle = "rgba(0,0,255,1.0)";
+    kiji.context.strokeStyle = "rgba(0,0,255,1.0)";
     // grips
     // origin
-    if (mouse_handler.start_handle == 1)
-      AContext.fillStyle = "rgba(0,255,255,1.0)";
+    if (kiji.mouse_handler.start_handle == 1)
+      kiji.context.fillStyle = "rgba(0,255,255,1.0)";
     else
-      AContext.fillStyle = "rgba(0,255,0,1.0)";
-    AContext.fillRect(ADx+AX1-2,ADy+AY1-2,4,4);
+      kiji.context.fillStyle = "rgba(0,255,0,1.0)";
+    kiji.context.fillRect(ADx+AX1-2,ADy+AY1-2,4,4);
     // end
-    if (mouse_handler.start_handle == 2)
-      AContext.fillStyle = "rgba(0,255,255,1.0)";
+    if (kiji.mouse_handler.start_handle == 2)
+      kiji.context.fillStyle = "rgba(0,255,255,1.0)";
     else
-      AContext.fillStyle = "rgba(0,255,0,1.0)";
-    AContext.fillRect(ADx+AX2-2,ADy+AY2-2,4,4);
+      kiji.context.fillStyle = "rgba(0,255,0,1.0)";
+    kiji.context.fillRect(ADx+AX2-2,ADy+AY2-2,4,4);
   } else {
-    AContext.fillStyle = "rgba(0,0,0,1.0)";
-    AContext.strokeStyle = AColor;
+    kiji.context.fillStyle = "rgba(0,0,0,1.0)";
+    kiji.context.strokeStyle = AColor;
   }
   // line
-  AContext.save();
-  AContext.lineWidth = AThicknes;
-  AContext.beginPath();
-  AContext.moveTo(ADx+AX1,ADy+AY1);
-  AContext.lineTo(ADx+AX2,ADy+AY2);
-  AContext.stroke();
-  AContext.restore();
+  kiji.context.save();
+  kiji.context.lineWidth = AThicknes;
+  kiji.context.beginPath();
+  kiji.context.moveTo(ADx+AX1,ADy+AY1);
+  kiji.context.lineTo(ADx+AX2,ADy+AY2);
+  kiji.context.stroke();
+  kiji.context.restore();
 }
 
 function lineHandle(AItem,AX,AY) {
