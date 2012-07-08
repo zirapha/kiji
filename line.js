@@ -124,3 +124,8 @@ function lineResize(AItem,ALeft,ARight,AUp,ADown,AHandle) {
     console.log('lineResize: moving nothing, handle='+AHandle);
 }
 
+function lineDistance(AX,AY) {
+  // return minimal distance from line item
+  return distancePointLineSegment(AX,AY,this.X,this.Y,this.EndX,this.EndY);
+}
+

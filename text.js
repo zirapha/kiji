@@ -85,3 +85,10 @@ function textResize(AItem,ALeft,ARight,AUp,ADown) {
   AItem.Width = textWidth(AItem.Caption,AItem.Font,AItem.Height)
 }
 
+function textDistance(AX,AY) {
+  // return nearest distance to text, 0 if point is inside text
+  if (pointInsideLTWH(AX,AY,this.X,this.Y-this.Height,this.Width,this.Height))
+    return 0;
+  return distancePointLTWH(AX,AY,this.X,this.Y-this.Height,this.Width,this.Height);
+}
+

@@ -31,6 +31,7 @@ function bodyOnLoad() {
   // load report from local storage
   if (localStorage.getItem('KIJI_REPORT')) {
     kiji.report = JSON.parse(localStorage.getItem('KIJI_REPORT'));
+    itemBind(kiji.report);
     // I tend to screw things during development, so I push clean report straight into undo
     undoPush(kiji.report);
   }
