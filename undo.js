@@ -27,8 +27,6 @@ function undoPop(AReport) {
   document.getElementById('items').innerHTML = 'Items: '+itemSelectedCount(AReport)+'/'+AReport.length;
   var r = undo.pop();
   current_item = itemFirstSelected(r);
-  mouse_handler.current = current_item;  // FIXME: the hell?
-  mouse_handler.report = r; // FIXME: this is just wrong
   attributesShow(current_item);
   return r;
 }

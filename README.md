@@ -30,6 +30,7 @@ PDF generation.
 
 History
 -------
+- 2012/07/08 - Global variables grouped into kiji object
 - 2012/07/07 - Fixed focus issues
 - 2012/07/06 - Fixed text width update after text resize using shift+up/down
 - 2012/06/15 - First working demo (lines, texts, basic editing)
