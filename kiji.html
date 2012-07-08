@@ -157,26 +157,15 @@
         ma mozete aj kontaktovat.
         </div>
 
-        <h2>Bugs</h2>
+        <h2>Bugs, important or immediate stuff</h2>
         <ul>
-          <li>Ked oznacim 2 objekty (ciary), tak ich normalne mozem spolu posuvat, ale ked kliknem na niektory z nich
-          tak, ze sa zvoli metodou near miesto exact, tak sa pri posune strati oznacenie druhej a posuvam len tu
-          kliknutu, proste ako keby near malo prednost pred selection, to neni dobre. Deje sa to preto lebo v
-          itemSelect najprv testujem exact match, potom su nejake podmienky na oznacovanie uz oznacenych a tie
-          to sposobuju. Ten itemSelect sa aj tak cely bude prepisovat takze sa to asi opravi samo.</li>
-        </ul>
-
-        <h2>Todo: cleanup</h2>
-        <ul>
-          <li>prepisat itemSelect tak aby pre Line pouzival lineSelect, pre Text pouzival textSelect, atd...
-          (proste nieco ako polymorfizmus, teoreticky by som mohol po do report[i] priradit metodu selekt a
-          JSON.stringify by ju pri ukladani aj tak mal zrusit, pripadne mozem zrusit rucne)</li>
-          <li>Pred velkym finalnym refaktoringom spisat zoznam globalnych premennych a z toho vychadzat</li>
+          <li>Vsetky zabudnute globalne premenne do objektu kiji (current_item?, mozno dalsie)</li>
+          <li>Podobne ako report[].distance spravit aj report[].draw (tam bude trochu problem mozno lebo line pouzivam v istom rezime aj bez existujuceho objektu cize this neexistuje!)</li>
         </ul>
 
         <h2>Todo: wishlist</h2>
         <ul>
-          <li>Trochu ma serie ze za wheel zoom miesa so skrolovanim stranky, mozno zmenit zoom na wheel+middle</li>
+          <li>Trochu ma serie ze za wheel zoom miesa so skrolovanim stranky, mozno zmenit zoom na wheel+middle?</li>
           <li>Nieco (slint/angle) na otacanie textov lebo v lavo su v Z1-12 otocene texty o 90°</li>
           <li>Spravit kompletne Z1-12 (text,ciary,vertikalne texty,boxy)</li>
           <li>Tlacitko white co potlaci pozadie, asi sposobom on/off, alebo off/10%/50%/100% ?</li>
