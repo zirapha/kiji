@@ -66,12 +66,10 @@ function itemMoveSelected(AReport,ADeltaX,ADeltaY) {
     }
 }
 
-var current_item = null; // FIXME: change it to be result of itemSelect
-
 function itemSelect(AReport,AX,AY,AThreshold,AAddToSelection) {
-  // select item by clicking on or near it, returns true if something was selected, handle multiselection using shift
-  // FIXME: this code needs serious cleanup
+  // select item by clicking on or near it, returns any of the items that was selected, handle multiselection using shift
   console.log('itemSelect(AReport[0..'+(AReport.length-1)+'], x:'+AX+', y:'+AY+', tr:'+AThreshold+', add:'+AAddToSelection+')');
+  var currently_selected_item = null;
 
   // did user clicked something already selected? if so do not remove previous selection
   var already_selected = false;
@@ -92,9 +90,10 @@ function itemSelect(AReport,AX,AY,AThreshold,AAddToSelection) {
       if (!AReport[i].Selected)
         s++;
       AReport[i].Selected = true;
+      currently_selected_item = AReport[i];
     }
 
-  return s > 0;
+  return currently_selected_item;
 }
 
 function itemDraw(ADx,ADy,AItem) {

@@ -13,6 +13,7 @@ var
   kiji.attributes_focused = false;
   kiji.dx = 0;
   kiji.dy = 0;
+  kiji.current_item = null;
 
 function bodyOnLoad() {
   // initialize form
@@ -38,9 +39,8 @@ function bodyOnLoad() {
   // mouse handler
   kiji.mouse_handler = new MouseHandler();
   // fill selected item to inputs
-  current_item = itemFirstSelected(kiji.report);
-  this.current = current_item;
-  attributesShow(current_item);
+  kiji.current_item = itemFirstSelected(kiji.report);
+  attributesShow(kiji.current_item);
   // initial tool = move
   setTool(document.getElementById(kiji.tool));
 }
@@ -116,7 +116,7 @@ function redraw(AIdentifier) {
     kiji.context.fillRect(kiji.dx, kiji.dy, kiji.bg.width, kiji.bg.height);
   }
   // report items
-  for (i=0; i<kiji.report.length; i++)
+  for (var i=0; i<kiji.report.length; i++)
     itemDraw(kiji.dx,kiji.dy,kiji.report[i]);
 }
 
@@ -150,7 +150,7 @@ function bodyOnKeyDown(AThis,AEvent) {
     document.activeElement = kiji.canvas;
     undoPush(kiji.report);
     itemDeleteSelected(kiji.report);
-    current_item = null;
+    kiji.current_item = null;
     kiji.mouse_handler.current = null;
     redraw('bodyOnKeyDown 1');
     attributesShow(null);
@@ -167,7 +167,7 @@ function bodyOnKeyDown(AThis,AEvent) {
   // shift+arrows changes item size
   if (AEvent.shiftKey && arrows) {
     // text: up/down changes Height
-    for (i=0; i<kiji.report.length; i++) {
+    for (var i=0; i<kiji.report.length; i++) {
       if (kiji.report[i].Selected) {
         switch (kiji.report[i].Type) {
           case "Line": lineResize(kiji.report[i],left,right,up,down,kiji.mouse_handler.start_handle); break;
@@ -177,7 +177,7 @@ function bodyOnKeyDown(AThis,AEvent) {
     }
     // done
     redraw('bodyOnKeyDown 2');
-    attributesShow(current_item);
+    attributesShow(kiji.current_item);
     return true;
   }
 

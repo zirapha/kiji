@@ -13,7 +13,6 @@ function MouseHandler() {
   this.start_button = -1;
 
   // selection
-  this.current = null;
   this.sel_count = 0;
 
   this.updateRealXY = function (AThis, AEvent) {
@@ -37,20 +36,14 @@ function MouseHandler() {
     this.start_handle = -1;
 
     // select item
-    if (this.start_button==0) {
-      if (itemSelect(kiji.report, this.real_x, this.real_y, 5, AEvent.shiftKey)) {
-        this.current = current_item;
-      }
-    }
+    if (this.start_button==0)
+      kiji.current_item = itemSelect(kiji.report, this.real_x, this.real_y, 5, AEvent.shiftKey);
     this.sel_count = itemSelectedCount(kiji.report)
 
     // nothing is selected
     if (this.sel_count == 0) {
       console.log('note: nothing is selected');
-      current_item = null;
-      this.current = null;
-    } else {
-      this.current = current_item;
+      kiji.current_item = null;
     }
 
     // redraw to show selection changes
@@ -58,12 +51,12 @@ function MouseHandler() {
 
     // if we clicked on line, detect if it is begin/middle/end of line
     if ( (this.sel_count==1)&&(kiji.tool == 'Move') ) {
-      this.start_handle = lineHandle(current_item, this.start_x, this.start_y);
+      this.start_handle = lineHandle(kiji.current_item, this.start_x, this.start_y);
       //console.log('lineHandle:'+this.start_handle);
     }
 
     // show attributes of recently selected item
-    attributesShow(this.current);
+    attributesShow(kiji.current_item);
 
     // workaround for linux clipboard
     if (this.start_button == 1)
@@ -93,18 +86,18 @@ function MouseHandler() {
         // finished moving line begin
         if (this.start_handle == 1) {
           //console.log('finished moving line begin');
-          current_item.X = this.real_x;
-          current_item.Y = this.real_y;
+          kiji.current_item.X = this.real_x;
+          kiji.current_item.Y = this.real_y;
         }
         // finished moving line end
         if (this.start_handle == 2) {
           //console.log('finished moving line end');
-          current_item.EndX = this.real_x;
-          current_item.EndY = this.real_y;
+          kiji.current_item.EndX = this.real_x;
+          kiji.current_item.EndY = this.real_y;
         }
         // ortogonalize line after editing
         if (this.start_handle > 0)
-          lineOrtogonalize(current_item,this.start_handle);
+          lineOrtogonalize(kiji.current_item,this.start_handle);
         // finish moving normal objects or middle of line
         if (this.start_handle <= 0)
           itemMoveSelected(kiji.report, this.real_x-this.start_x, this.real_y-this.start_y);
@@ -123,7 +116,7 @@ function MouseHandler() {
         undoPush(kiji.report);
         // add new text
         var t = textCreate(kiji.canvas,kiji.context,s,this.real_x,this.real_y);
-        current_item = t;
+        kiji.current_item = t;
         kiji.report.push(t);
       }
       redraw('mh.canvasOnMouseUp 3');
@@ -135,7 +128,7 @@ function MouseHandler() {
       undoPush(kiji.report);
       var l = lineCreate(kiji.canvas, kiji.context, this.start_x, this.start_y, this.real_x, this.real_y);
       lineOrtogonalize(l);
-      current_item = l;
+      kiji.current_item = l;
       kiji.report.push(l)
       redraw('mh.canvasOnMouseUp 4');
     }
@@ -169,25 +162,29 @@ function MouseHandler() {
         kiji.context.fillRect();
         kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
         // single line is moved differently
-        if ( (current_item)&&(current_item.Type == 'Line') && (this.sel_count==1) && (this.start_handle > 0) ) {
+        if ( (kiji.current_item)&&(kiji.current_item.Type == 'Line') && (this.sel_count==1) && (this.start_handle > 0) ) {
           // move begin/all/end of single line
           // move begin if line
           if (this.start_handle==1) {
             lineDraw(kiji.dx,kiji.dy,
               this.real_x,
               this.real_y,
-              current_item.EndX,
-              current_item.EndY,
-              current_item.Selected,current_item.Color,current_item.Thickness);
+              kiji.current_item.EndX,
+              kiji.current_item.EndY,
+              kiji.current_item.Selected,
+              kiji.current_item.Color,
+              kiji.current_item.Thickness);
           }
           // move end of line
           if (this.start_handle==2) {
             lineDraw(kiji.dx,kiji.dy,
-              current_item.X,
-              current_item.Y,
+              kiji.current_item.X,
+              kiji.current_item.Y,
               this.real_x,
               this.real_y,
-              current_item.Selected,current_item.Color,current_item.Thickness);
+              kiji.current_item.Selected,
+              kiji.current_item.Color,
+              kiji.current_item.Thickness);
           }
         } else {
           // move other items (Text)
