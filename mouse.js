@@ -201,7 +201,7 @@ function MouseHandler() {
     if ( (kiji.tool == 'Line')&&(this.start_button==0) ) {
       // background
       kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
-      kiji.context.fillRect();
+      //kiji.context.fillRect();
       kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
       // cline
       lineDrawPrimitive(kiji.dx,kiji.dy,
