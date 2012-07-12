@@ -28,6 +28,7 @@ function undoPop(AReport) {
   var r = undo.pop();
   current_item = itemFirstSelected(r);
   attributesShow(current_item);
+  itemBind(r);
   return r;
 }
 

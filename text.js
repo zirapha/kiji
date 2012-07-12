@@ -1,11 +1,27 @@
 // text object (alphabetic baseline)
 
-function textDrawItem(ADx,ADy,AItem) {
-  // draw text item
-  textDraw(AItem.Caption,AItem.X,AItem.Y,AItem.Width,AItem.Height,AItem.Font,AItem.Color,AItem.Selected,ADx,ADy);
+function textCreate(ACaption,AX,AY) {
+  // create new text
+  var t = new Object();
+  t.Type = 'Text';
+  t.Selected = false;
+  t.X = AX;
+  t.Y = AY;
+  t.Height = 13;
+  t.Font = 'Sans';
+  textChangeCaption(t,ACaption);
+  t.move = textMove;
+  t.distance = textDistance;
+  t.draw = textDraw;
+  return t;
 }
 
-function textDraw(ACaption,AX,AY,AWidth,AHeight,AFont,AColor,ASelected,ADx,ADy) {
+function textDraw(ADx,ADy) {
+  // draw text item
+  textDrawPrimitive(this.Caption,this.X,this.Y,this.Width,this.Height,this.Font,this.Color,this.Selected,ADx,ADy);
+}
+
+function textDrawPrimitive(ACaption,AX,AY,AWidth,AHeight,AFont,AColor,ASelected,ADx,ADy) {
   // actual text drawing
   // color by selection state
   kiji.context.fillStyle = "rgba(0,0,0,1.0)";
@@ -36,21 +52,6 @@ function textDraw(ACaption,AX,AY,AWidth,AHeight,AFont,AColor,ASelected,ADx,ADy) 
   kiji.context.lineWidth = 1.0;
   */
   kiji.context.restore();
-}
-
-function textCreate(ACaption,AX,AY) {
-  // create new text
-  var t = new Object();
-  t.Type = 'Text';
-  t.Selected = false;
-  t.X = AX;
-  t.Y = AY;
-  t.Height = 13;
-  t.Font = 'Sans';
-  textChangeCaption(t,ACaption);
-  //kiji.context.font = t.Height+'px '+t.Font;
-  //t.Width = 1*kiji.context.measureText(ACaption).width;
-  return t;
 }
 
 function textChangeCaption(AItem,ACaption) {
@@ -90,5 +91,11 @@ function textDistance(AX,AY) {
   if (pointInsideLTWH(AX,AY,this.X,this.Y-this.Height,this.Width,this.Height))
     return 0;
   return distancePointLTWH(AX,AY,this.X,this.Y-this.Height,this.Width,this.Height);
+}
+
+function textMove(ADeltaX,ADeltaY) {
+  // move text by some delta
+  this.X += ADeltaX;
+  this.Y += ADeltaY;
 }
 

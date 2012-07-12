@@ -11,15 +11,18 @@ function lineCreate(AX,AY,AEndX,AEndY) {
   t.Y = AY;
   t.EndX = AEndX;
   t.EndY = AEndY;
+  t.move = lineMove;
+  t.distance = lineDistance;
+  t.draw = lineDraw;
   return t;
 }
 
-function lineDrawItem(ADx,ADy,AItem) {
+function lineDraw(ADx,ADy) {
   // draw AB line
-  lineDraw(ADx,ADy,AItem.X,AItem.Y,AItem.EndX,AItem.EndY,AItem.Selected,AItem.Color,AItem.Thicknes);
+  lineDrawPrimitive(ADx,ADy,this.X,this.Y,this.EndX,this.EndY,this.Selected,this.Color,this.Thicknes);
 }
 
-function lineDraw(ADx,ADy,AX1,AY1,AX2,AY2,ASelected,AColor,AThicknes,AGrip) {
+function lineDrawPrimitive(ADx,ADy,AX1,AY1,AX2,AY2,ASelected,AColor,AThicknes,AGrip) {
   // line drawing from point A to B (used for new lines)
   kiji.context.fillStyle = "black";
   kiji.context.strokeStyle = 'black';
@@ -127,5 +130,13 @@ function lineResize(AItem,ALeft,ARight,AUp,ADown,AHandle) {
 function lineDistance(AX,AY) {
   // return minimal distance from line item
   return distancePointLineSegment(AX,AY,this.X,this.Y,this.EndX,this.EndY);
+}
+
+function lineMove(ADeltaX,ADeltaY) {
+  // move line by some delta
+  this.X += ADeltaX;
+  this.Y += ADeltaY;
+  this.EndX += ADeltaX;
+  this.EndY += ADeltaY;
 }
 

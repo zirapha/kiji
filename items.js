@@ -17,8 +17,16 @@ function itemBind(AReport) {
   // after report is loaded (from json) add methods depending on type
   for(var i=0; i<AReport.length; i++) {
     switch(AReport[i].Type) {
-      case 'Text': AReport[i].distance = textDistance; break;
-      case 'Line': AReport[i].distance = lineDistance; break;
+      case 'Text':
+        AReport[i].distance = textDistance;
+        AReport[i].draw = textDraw;
+        AReport[i].move = textMove;
+        break;
+      case 'Line':
+        AReport[i].distance = lineDistance;
+        AReport[i].draw = lineDraw;
+        AReport[i].move = lineMove;
+        break;
     }
   }
 }
@@ -50,20 +58,8 @@ function itemFirstSelected(AReport) {
 function itemMoveSelected(AReport,ADeltaX,ADeltaY) {
   // move selected items by given delta
   for(var i=0; i<AReport.length; i++)
-    if (AReport[i].Selected) {
-      // Text
-      if (AReport[i].Type == 'Text') {
-        AReport[i].X += ADeltaX;
-        AReport[i].Y += ADeltaY;
-      }
-      // line
-      if (AReport[i].Type == 'Line') {
-        AReport[i].X += ADeltaX;
-        AReport[i].Y += ADeltaY;
-        AReport[i].EndX += ADeltaX;
-        AReport[i].EndY += ADeltaY;
-      }
-    }
+    if (AReport[i].Selected)
+      AReport[i].move(ADeltaX,ADeltaY);
 }
 
 function itemSelect(AReport,AX,AY,AThreshold,AAddToSelection) {
@@ -94,16 +90,6 @@ function itemSelect(AReport,AX,AY,AThreshold,AAddToSelection) {
     }
 
   return currently_selected_item;
-}
-
-function itemDraw(ADx,ADy,AItem) {
-  // draw items respecting their type
-  // Text
-  if (AItem.Type == 'Text')
-    textDrawItem(ADx,ADy,AItem);
-  // Line
-  if (AItem.Type == 'Line')
-    lineDrawItem(ADx,ADy,AItem);
 }
 
 

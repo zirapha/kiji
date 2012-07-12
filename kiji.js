@@ -117,7 +117,7 @@ function redraw(AIdentifier) {
   }
   // report items
   for (var i=0; i<kiji.report.length; i++)
-    itemDraw(kiji.dx,kiji.dy,kiji.report[i]);
+    kiji.report[i].draw(kiji.dx,kiji.dy);
 }
 
 function toolUndo() {

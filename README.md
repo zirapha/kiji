@@ -30,7 +30,7 @@ PDF generation.
 
 History
 -------
-- 2012/07/12 - Cleaned up global variables
+- 2012/07/12 - Cleaned up global variables, binding for drawing items
 - 2012/07/11 - Added leaks.js to show global variables and functions
 - 2012/07/08 - Global variables grouped into kiji object, Cleaned itemSelect 
                using report[].distance.

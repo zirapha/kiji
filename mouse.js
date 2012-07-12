@@ -115,7 +115,7 @@ function MouseHandler() {
       if (s) {
         undoPush(kiji.report);
         // add new text
-        var t = textCreate(kiji.canvas,kiji.context,s,this.real_x,this.real_y);
+        var t = textCreate(s,this.real_x,this.real_y);
         kiji.current_item = t;
         kiji.report.push(t);
       }
@@ -126,7 +126,7 @@ function MouseHandler() {
     if ( (kiji.tool == 'Line') && (this.start_button == 0) ) {
       // add new line
       undoPush(kiji.report);
-      var l = lineCreate(kiji.canvas, kiji.context, this.start_x, this.start_y, this.real_x, this.real_y);
+      var l = lineCreate(this.start_x, this.start_y, this.real_x, this.real_y);
       lineOrtogonalize(l);
       kiji.current_item = l;
       kiji.report.push(l)
@@ -166,7 +166,7 @@ function MouseHandler() {
           // move begin/all/end of single line
           // move begin if line
           if (this.start_handle==1) {
-            lineDraw(kiji.dx,kiji.dy,
+            lineDrawPrimitive(kiji.dx,kiji.dy,
               this.real_x,
               this.real_y,
               kiji.current_item.EndX,
@@ -177,7 +177,7 @@ function MouseHandler() {
           }
           // move end of line
           if (this.start_handle==2) {
-            lineDraw(kiji.dx,kiji.dy,
+            lineDrawPrimitive(kiji.dx,kiji.dy,
               kiji.current_item.X,
               kiji.current_item.Y,
               this.real_x,
@@ -191,9 +191,8 @@ function MouseHandler() {
           var dx2 = kiji.dx + this.real_x - this.start_x;
           var dy2 = kiji.dy + this.real_y - this.start_y;
           for (var i=0; i<kiji.report.length; i++)
-            if (kiji.report[i].Selected) {
-              itemDraw(dx2,dy2,kiji.report[i]);
-            }
+            if (kiji.report[i].Selected)
+              kiji.report[i].draw(dx2,dy2);
         }
       }
     }
@@ -205,7 +204,7 @@ function MouseHandler() {
       kiji.context.fillRect();
       kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
       // cline
-      lineDraw(kiji.dx,kiji.dy,
+      lineDrawPrimitive(kiji.dx,kiji.dy,
         this.start_x,
         this.start_y,
         this.real_x,
