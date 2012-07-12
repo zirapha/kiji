@@ -108,7 +108,6 @@ function redraw(AIdentifier) {
   // clear canvas
   kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
   // background
-  //kiji.context.fillRect(0,0,kiji.canvas.width,kiji.canvas.height);
   kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
   // 90% white overlay
   if (kiji.white) {
