@@ -30,14 +30,17 @@ PDF generation.
 
 History
 -------
-- 2012/07/12 - Cleaned up global variables, binding for drawing items
-- 2012/07/11 - Added leaks.js to show global variables and functions
-- 2012/07/08 - Global variables grouped into kiji object, Cleaned itemSelect 
-               using report[].distance.
-- 2012/07/07 - Fixed focus issues
-- 2012/07/06 - Fixed text width update after text resize using shift+up/down
-- 2012/06/15 - First working demo (lines, texts, basic editing)
-- 2012/05/24 - Development started
+- 2012/07/12 - Cleaned up global variables.
+               Binding for drawing and moving items.
+               Renamed lineDrawItem to lineDraw, lineDraw to lineDrawPrimitive.
+               Minor firefox fixes.
+- 2012/07/11 - Added leaks.js to show global variables and functions.
+- 2012/07/08 - Global variables grouped into kiji object.
+               Cleaned itemSelect using report[].distance.
+- 2012/07/07 - Fixed focus issues.
+- 2012/07/06 - Fixed text width update after text resize using shift+up/down.
+- 2012/06/15 - First working demo (lines, texts, basic editing).
+- 2012/05/24 - Development started.
 
 Todo
 ----

@@ -144,13 +144,13 @@ function MouseHandler() {
   this.canvasOnMouseMove = function(AThis,AEvent) {
       // mouse move on canvas
     this.updateRealXY(AThis,AEvent)
-    rxy.innerHTML = 'X:'+this.real_x.toFixed(1)+', Y:'+this.real_y.toFixed(1);
+    document.getElementById('rxy').innerHTML = 'X:'+this.real_x.toFixed(1)+', Y:'+this.real_y.toFixed(1);
 
     // pan
     if (this.start_button==1) {
       // redraw bg on new position
       kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
-      kiji.context.fillRect();
+      //kiji.context.fillRect(0,0,kiji.canvas.width,kiji.canvas.height);
       kiji.context.drawImage(kiji.bg, kiji.dx+this.real_x-this.start_x, kiji.dy+this.real_y-this.start_y);
     }
 
@@ -159,7 +159,7 @@ function MouseHandler() {
       if ((this.start_button==0) && (this.sel_count>=0)) {
         // background
         kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
-        kiji.context.fillRect();
+        //kiji.context.fillRect(0,0,kiji.canvas.width,kiji.canvas.height);
         kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
         // single line is moved differently
         if ( (kiji.current_item)&&(kiji.current_item.Type == 'Line') && (this.sel_count==1) && (this.start_handle > 0) ) {

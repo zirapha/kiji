@@ -158,16 +158,22 @@
         ma mozete aj kontaktovat.
         </div>
 
-        <h2>Bugs, important or immediate stuff</h2>
+        <h2>Todo: now</h2>
         <ul>
-          <li>Podobne ako report[].distance spravit aj report[].draw (tam bude
-          trochu problem mozno lebo line pouzivam v istom rezime aj bez
-          existujuceho objektu cize this neexistuje!)</li>
+          <li>Fix fillRect problem na chrome vs firefox</li>
+          <li>Firefox momentalne nema items lebo report je v localStorage ktora je samozrejme ine a az ked
+              kliknem na backup tak sa uklada, nejak to ohakovat aby som mohol mat viac reportov ulozenych ako backup,
+              napr vypitat meno reportu alebo take nieco, pripadne cislo, a tomu prisposobit ten
+              docasny backup</li>
+          <li>Trochu ma serie ze za wheel zoom miesa so skrolovanim stranky, mozno zmenit zoom na wheel+middle?
+          Moznosti:
+          1. Nechat to tak, koliesko nad reportom = zoom, koliesko mimo = skrolovanie
+          2. Ctrl+koliesko je std. vlastnost prehliadaca, robi to zoom
+          </li>
         </ul>
 
         <h2>Todo: wishlist</h2>
         <ul>
-          <li>Trochu ma serie ze za wheel zoom miesa so skrolovanim stranky, mozno zmenit zoom na wheel+middle?</li>
           <li>Nieco (slint/angle) na otacanie textov lebo v lavo su v Z1-12 otocene texty o 90°</li>
           <li>Spravit kompletne Z1-12 (text,ciary,vertikalne texty,boxy)</li>
           <li>Tlacitko white co potlaci pozadie, asi sposobom on/off, alebo off/10%/50%/100% ?</li>

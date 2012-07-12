@@ -19,7 +19,7 @@ function bodyOnLoad() {
   // initialize form
   // canvas
   kiji.canvas = document.getElementById('canvas');
-  kiji.context = canvas.getContext('2d');
+  kiji.context = kiji.canvas.getContext('2d');
   // load background
   kiji.bg = new Image();
   kiji.bg.onload = bgOnLoad;
@@ -108,7 +108,7 @@ function redraw(AIdentifier) {
   // clear canvas
   kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
   // background
-  kiji.context.fillRect();
+  //kiji.context.fillRect(0,0,kiji.canvas.width,kiji.canvas.height);
   kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
   // 90% white overlay
   if (kiji.white) {
