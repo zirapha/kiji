@@ -42,7 +42,7 @@ History
 - 2012/07/07 - Fixed focus issues.
 - 2012/07/06 - Fixed text width update after text resize using shift+up/down.
 - 2012/06/15 - First working demo (lines, texts, basic editing).
-- 2012/05/24 - Development started.
+- 2012/05/23 - Development started.
 
 Todo
 ----

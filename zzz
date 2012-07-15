@@ -1,0 +1,229 @@
+commit 5302c10ecc47f9351324bf8cbc09fd0817e547a0
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sun Jul 15 12:07:21 2012 +0200
+
+    Updated todo
+
+commit f205ca78eb0bbcf7e0eb121e250d08e7fb7de299
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sun Jul 15 11:46:32 2012 +0200
+
+    Changed zoom behavior, fixed menu position
+
+commit d40e78ac067230064ff276b52bdfd8e23011a879
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Thu Jul 12 21:18:27 2012 +0200
+
+    Removed dummy fillRect
+
+commit 4a7f41678e01680337c0a4f53e844fe3bf6608c7
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Thu Jul 12 21:16:55 2012 +0200
+
+    Firefox fix
+
+commit 5c9a71a9a3018d86ebb0879b0f61c7fdb62b165c
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Thu Jul 12 21:13:09 2012 +0200
+
+    Minor firefox fixes
+
+commit 8b86799a6397b86bf747eec8b358f0b78aeb6abe
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Thu Jul 12 20:52:52 2012 +0200
+
+    Binding for move, renamed text/line drawing functions, fixed undo and line creation
+
+commit 5da4fb3f278ddc5dc90231e850fb3ce7c3a50ede
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Thu Jul 12 20:29:47 2012 +0200
+
+    Updated todo
+
+commit 1e997cfefbd70fc0bc29a9ee2a60f7dee210ebc9
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Thu Jul 12 20:27:39 2012 +0200
+
+    Cleaned up rest of global vars, esp. current_item
+
+commit 765ce272baf53f1123478a8e8f9bd0cae6e87dd7
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Wed Jul 11 21:50:33 2012 +0200
+
+    Added test for leaked js global variables
+
+commit e42406f9c69882b5d0a838f6d1516b456944c675
+Author: zirapha <zirapha@centrum.sk>
+Date:   Mon Jul 9 10:07:42 2012 +0200
+
+    Fixed typo in README.md
+
+commit 8b30cef21e88f205844cd64f1867eb44b70594f0
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sun Jul 8 19:41:58 2012 +0200
+
+    Updated todo
+
+commit 0730e0690b5e574bb4c36ce0d177e09258154121
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sun Jul 8 19:36:13 2012 +0200
+
+    Fixed itemSelect to use report[].distance
+
+commit dedd9c7c491619e30e9dcf081cecb0b8bdc4e399
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sun Jul 8 06:46:41 2012 +0200
+
+    Removed old undo code that was handling obsolete report reference after undo
+
+commit 9025ddd4c3dfb0666642028bd0742075ca129ad2
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sun Jul 8 06:42:49 2012 +0200
+
+    Major clenup of global variables, wrapped into kiji object
+
+commit d53f0cedf66cdb7a39822cff4e856b01b5c5ef13
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sat Jul 7 21:03:24 2012 +0200
+
+    Updated todo
+
+commit 0f54572ef84c068382204a65221b927d936e1396
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sat Jul 7 18:42:27 2012 +0200
+
+    Cleanup previous focus code
+
+commit 9e289e82ba7b76c7751dbc63c9c1d218ffddc29f
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sat Jul 7 18:11:28 2012 +0200
+
+    Finally fixed focus behaviour
+
+commit 6f31c4703ea9d3cab18bdc1173d7104706cacea0
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Fri Jul 6 21:30:56 2012 +0200
+
+    Disabled all focusing mumbo-jumbo to see core behaviour
+
+commit b6f235bdcf1d2117b415354b818f72b7ed03b060
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Fri Jul 6 20:50:28 2012 +0200
+
+    Added page that describes input behavior
+
+commit 92789ac187b01872cb3a878720317c19f2f1ff48
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Fri Jul 6 20:04:32 2012 +0200
+
+    Updated todo
+
+commit 383794da14a529df7266c31be00fa93ff39c0d31
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Fri Jul 6 19:59:46 2012 +0200
+
+    Update text width after resize using shift+up/dn
+
+commit a15f7267b99bb9b43a02c239f3852a06e95b4740
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Mon Jul 2 06:03:50 2012 +0200
+
+    TODO
+
+commit afa40769704b8450615c09d651ea094ee9f00c1b
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Mon Jun 18 05:17:55 2012 +0200
+
+    Added todo
+
+commit ce96e2bfe9f5efa82fa3c0c0e69c424f89c90f16
+Merge: 39aac4b ed0f913
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sun Jun 17 08:59:06 2012 +0200
+
+    Merge branch 'bundle_20120616-215243-d'
+
+commit 39aac4b2fa07140e30e23834501f58580104c547
+Merge: d7950c1 3821ad0
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sun Jun 17 06:27:42 2012 +0200
+
+    Merge branch 'master2'
+
+commit d7950c14de8acda52dbace40efb536f15ee14815
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sun Jun 17 06:26:52 2012 +0200
+
+    First commit to create dummy branch master
+
+commit ed0f9136bc51aff0d6f46ab2ccd01970db0535ad
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sat Jun 16 21:52:28 2012 +0200
+
+    Added todo to readme
+
+commit 3821ad05d09447103fb04c4524fe0a9f05c93e1d
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sat Jun 16 21:28:03 2012 +0200
+
+    Started adding todo to readme
+
+commit e5daa40092ed84c31f02dcac1127ebdce946281b
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sat Jun 16 08:18:46 2012 +0200
+
+    Removed empty line from readme
+
+commit bc526c43d1ec474ad3e7daa3467b4042d4d6de9c
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Sat Jun 16 07:41:38 2012 +0200
+
+    Updated readme
+
+commit efe8283c94cbb24127ea36aca1a285c4a24874f5
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Fri Jun 15 21:40:48 2012 +0200
+
+    Wrapped to 80 chars, goals converted to list
+
+commit a7e2a66e489caa305e3432d92f3f8adc25469e03
+Author: Jozef Novak <jozef208@centrum.sk>
+Date:   Fri Jun 15 21:32:50 2012 +0200
+
+    Added description to kiji.js
+
+commit 76644aa4956fb62ca661f4ddee8efd26a0356605
+Author: zirapha <zirapha@centrum.sk>
+Date:   Fri Jun 15 14:24:38 2012 +0200
+
+    Fixed github link in help
+
+commit 963cfac03a06aabfc1da418949d195880ae45663
+Author: zirapha <zirapha@centrum.sk>
+Date:   Fri Jun 15 14:33:59 2012 +0300
+
+    Update master
+
+commit 85d019f47122b030e1696ffc034dc2af0405f98e
+Author: zirapha <zirapha@centrum.sk>
+Date:   Fri Jun 15 13:30:44 2012 +0200
+
+    Updated README
+
+commit e780ea7f213ff0d3322e72b942bc35308ad86ca9
+Author: Peter Zirko <zirapha@centrum.sk>
+Date:   Fri Jun 15 13:19:26 2012 +0200
+
+    Initial import
+
+commit 609a99c55e9c20db49c728a8610a6bc4c9669d9b
+Author: zirapha <zirapha@centrum.sk>
+Date:   Fri Jun 15 14:17:57 2012 +0300
+
+    Update master
+
+commit 52a05fedeeb19205c4f12773f84a46a6b79bcd05
+Author: zirapha <zirapha@centrum.sk>
+Date:   Fri Jun 15 04:17:08 2012 -0700
+
+    Initial commit
