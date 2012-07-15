@@ -220,8 +220,9 @@ function setTool(AThis) {
   document.getElementById('Text').setAttribute('class',(AThis.id=='Text')?'selected':'');
   document.getElementById('Line').setAttribute('class',(AThis.id=='Line')?'selected':'');
   document.getElementById('Help').setAttribute('class',(AThis.id=='Help')?'selected':'');
-  // show/hide help
+  // show/hide help or canvas
   document.getElementById('HelpContent').style.display = (kiji.tool=='Help')?'block':'none';
+  document.getElementById('canvas').style.display      = (kiji.tool=='Help')?'none':'block';
   console.log('tool='+kiji.tool);
 }
 
