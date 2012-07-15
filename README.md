@@ -28,6 +28,18 @@ I want Kiji to be simple and intuitive to use for new users.
 - Simplicity. Focus on just editing. Nothing else. No saving, no user ACL, no
 PDF generation.
 
+Current state
+-------------
+
+Kiji is NOT yet suitable for real use. It currently has only 2 item types. Text
+and line. Most of work being done now is polishing ergonomy and source
+refactoring. Basic editing is not yet mastered and thus no new features will be
+added until this basic editing is perfected.
+
+Todo
+----
+- See kiji.html (press Help button) for actual todo
+
 History
 -------
 - 2012/07/15 - Changed zoom to wheel+rightclick(or shift)
@@ -44,7 +56,4 @@ History
 - 2012/06/15 - First working demo (lines, texts, basic editing).
 - 2012/05/23 - Development started.
 
-Todo
-----
-- See kiji.html (or press Help button) for actual todo
 
