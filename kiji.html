@@ -20,6 +20,7 @@
       */
       background: gray;
       cursor: default;
+      margin-left: 140px;
     }
 
     div.menu {
@@ -27,6 +28,10 @@
       width: 130px;
       text-align: left;
       border: 0px solid blue;
+      position: fixed;
+      background-color: white;
+      border: 1px solid gray;
+      border-radius: 5px;
     }
 
     #tools button {
@@ -83,6 +88,9 @@
     onload="bodyOnLoad()"
     onunload="bodyOnUnload()"
     onkeydown="return bodyOnKeyDown(this,event)"
+    onmousedown="return bodyOnMouseDown(this,event)"
+    onmouseup="return bodyOnMouseUp(this,event)"
+    onmousewheel="return bodyOnMouseWheel(this,event)"
     >
 
     <div class="menu">
@@ -160,11 +168,7 @@
 
         <h2>Todo: now</h2>
         <ul>
-          <li>Trochu ma serie ze za wheel zoom miesa so skrolovanim stranky, mozno zmenit zoom na wheel+middle?
-          Moznosti:
-          1. Nechat to tak, koliesko nad reportom = zoom, koliesko mimo = skrolovanie
-          2. Ctrl+koliesko je std. vlastnost prehliadaca, robi to zoom
-          </li>
+          <li>???</li>
         </ul>
 
         <h2>Todo: wishlist</h2>
@@ -219,9 +223,40 @@
           <li>Stlacenim stredneho tlacitka (kolieska) mozem posuvat pozadie (tzv. pan)</li>
           <li>Pan funguje aj ked som nad nejakou item lebo sa pouziva stredne tlacitko, nie lave</li>
           <li>Pan nezrusi oznacenie</li>
-          <li>Koliesko funguje ako zoom</li>
-          <li>Minimalny mozny zoom je 50% (t.j. 2x mensie)</li>
-          <li>Minimalny mozny zoom je 2000% (t.j. 20x vacsie)</li>
+          <li>Zoom
+            <ul>
+              <li>Prave tlacitko (alebo shift) + koliesko funguje ako zoom</li>
+              <li>Minimalny mozny zoom je 50% (t.j. 2x mensie)</li>
+              <li>Minimalny mozny zoom je 2000% (t.j. 20x vacsie)</li>
+              <li>Povodne zoom fungoval len ak som bol nad canvasom a mimo kanvasu
+                  wheel scroloval stranku. To nebolo moc dobre, experimentoval som
+                  s roznymi sposobmi zoomu a tu je 6 verzii ktore som otestoval:
+           <pre>
+           1. Nechat to tak, koliesko nad reportom = zoom, koliesko mimo = skrolovanie
+             - CONFUSING (wheel behaves differently depending on cursor pos)
+             - for scroll down must navigate cursor outside canvas or use scrollbar
+           2. Ctrl+koliesko je std. vlastnost prehliadaca, robi to zoom, mozno overridnut (ostane fungovat
+              ctrl,+) a uchmatnut to na moj zoom. Problem je ze Ctrl+koliesko sa neda potlacit a ani sa
+              tato udalost nikam nepropaguje, v onmousewheel sa neobjavi)
+             - IMPOSSIBLE
+           3. Uplne zrusil vlastny zoom a nechat to na ctrl+wheel
+             - papier je potom mimo stranku (v pravo takze by trebalo pouzivat 2 scrollbary)
+             - meni to velkost OI
+             ? teraz sice nie je zoom tak implementovany, ale dalo by sa to spravit tak aby
+               aj pri zoome vsetko bolo ostre (sice trochu to potom moze znepresnit fonty)
+             + uplne by som mohol vyhodit zoom
+           4. Drzat stlacene koliesko+scroll = zoom?
+             - PRONE TO MISCLICKS (wheel tend to move slightly just before middle button is pressed)
+           5. Shift+koliesko=zoom alebo alt+koliesko=zoom
+             + done (will do further tests and thoughts about it)
+             - nonstandard (ctrl+wheel is official page zoom, why need anoher shift+wheel?)
+             - require 2 hands, wheel+rightclick need just one
+           6. Prave tlacitko + wheel, na canvase potlacit prave tlacitko
+             + works fine, does not interfere with anything
+           </pre>
+
+            </ul>
+          </li>
           <li>Ctrl+Z vrati zmenu spat (undo) a mozno ho volat opakovane</li>
           <li>Pri pane sa priebezne prekresluje pozadie takze vidim kam sa posuvam, kvoli rychlosti
             sa komponenty nemusia prekreslovat</li>
@@ -288,10 +323,11 @@
 
 
     <canvas width="1000" height="1000" id="canvas"
-    onmousedown="if (kiji.mouse_handler) return kiji.mouse_handler.canvasOnMouseDown(this,event); return false;"
+    oncontextmenu="return false; // right+wheel is used for zoom"
+    onmousedown="if (kiji.mouse_handler) return kiji.mouse_handler.canvasOnMouseDown(this,event)"
     onmouseup="if (kiji.mouse_handler) return kiji.mouse_handler.canvasOnMouseUp(this,event)"
     onmousemove="if (kiji.mouse_handler) return kiji.mouse_handler.canvasOnMouseMove(this,event)"
-    onmousewheel="if (kiji.mouse_handler) return kiji.mouse_handler.canvasOnMouseWheel(this,event); return false;"
+    onmousewheel="if (kiji.mouse_handler) return kiji.mouse_handler.canvasOnMouseWheel(this,event)"
     ></canvas>
 
   </body>

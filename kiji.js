@@ -14,6 +14,7 @@ var
   kiji.dx = 0;
   kiji.dy = 0;
   kiji.current_item = null;
+  kiji.button = null;
 
 function bodyOnLoad() {
   // initialize form
@@ -304,7 +305,42 @@ function attrOnKeyDown(AThis,AEvent) {
     console.log('ESC');
     document.getElementById(kiji.tool).focus();
   }
+}
 
+function bodyOnMouseDown(AThis,AEvent) {
+  // remember mouse button for onmousewheel event
+  kiji.button = AEvent.button;
+}
+
+function bodyOnMouseUp(AThis,AEvent) {
+  // remember mouse button for onmousewheel event
+  kiji.button = null;
+}
+
+function bodyOnMouseWheel(AThis,AEvent) {
+  // override standard browser ctrl+wheel to kiji's own zoom
+  //console.log('bodyOnMouseWheel c='+AEvent.ctrlKey+' kmb='+kiji.button);
+
+
+/*  if (kiji.button == 1) {
+    if (AEvent.wheelDelta > 0)
+      updateZoom(canvas,AEvent,1,0.5)
+    else
+      updateZoom(canvas,AEvent,1,-0.5);
+
+    return false;
+  }
+*/
+
+  // shift+wheel = alternative zoom
+  if (AEvent.shiftKey) {
+    if (AEvent.wheelDelta > 0)
+      updateZoom(canvas,AEvent,1,0.5)
+    else
+      updateZoom(canvas,AEvent,1,-0.5);
+    return false;
+  }
+  //  return false;
 }
 
 
