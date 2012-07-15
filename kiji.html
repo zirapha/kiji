@@ -61,7 +61,7 @@
     #HelpContent {
       background: silver;
       position: absolute;
-      left: 138px;
+      left: 140px;
       top: 0px;
       display: none;
       padding: 1em;
@@ -168,17 +168,20 @@
 
         <h2>Todo: now</h2>
         <ul>
-          <li>???</li>
+          <li>Kvoli zmene menu na position: fixed sa zmenilo spravanie helpu, asi helpu dat rovnake
+          chovanie canvas a ked zapnem help schovat canvas (display: none;) a ked zrusim help tak zase
+          helpu dat display: none; alebo presunut help do samostatneho suboru?</li>
+          <li>Threshold by mozno mal zavysiet od zoomu, ak mam velky zoom a threshold je stale 5 tak to neni moc
+          dobre lebo pri velkom zoome je 5 uz moc vela a pri texte to nerobi dobrotu</li>
+          <li>Pri editacii ciar by to chcelo nejaku preferenciu aby ked chcem posunut koniec ciary to
+          neoznacovalo inu ciaru len preto ze som klikol blizko. Teraz je nemozne upravit 4 ciary tak
+          aby vytvorili stvorec lebo furt sa mi oznacuje viac ciar</li>
         </ul>
 
         <h2>Todo: wishlist</h2>
         <ul>
-          <li>Nieco (slint/angle) na otacanie textov lebo v lavo su v Z1-12 otocene texty o 90°</li>
-          <li>Spravit kompletne Z1-12 (text,ciary,vertikalne texty,boxy)</li>
           <li>Tlacitko white co potlaci pozadie, asi sposobom on/off, alebo off/10%/50%/100% ?</li>
-          <li>Nejaky threshold na pan lebo takto sa posuva o 1-2 pixely ked trosku blbo kliknem</li>
-          <li>Threshold by mozno mal zavysiet od zoomu, ak mam velky zoom a threshold je stale 5 tak to neni moc
-          dobre lebo pri velkom zoome je 5 uz moc vela a pri texte to nerobi dobrotu</li>
+          <li>Nejaky threshold na pan (alebo posun items?) lebo takto sa posuva o 1-2 pixely ked trosku blbo kliknem</li>
           <li>Nejake zarovnavanie horizontalne/vertikalne k inym objektom, ako v lazaruse, alebo snap nejaky
           (napr. ak kliknem tak najde najblizsi priesecnik 2 ciar a zarovna ich)</li>
           <li>Vyriesit oznacovanie prekryvajucich sa ramcekov ([ [] ]) mozno cez z-index resp. send to back/front</li>
@@ -187,22 +190,29 @@
           <li>Kopirovanie oznacenych poloziek (oznacim 3, kopia, vzniknu 3 nove ktore budu oznacene, trochu
           posunute aby to bolo vidno a povodne stratia oznacenie)</li>
           <li>Pri posuvani handle ciary ak nie je znama, mozno by som mohol pouzit tu ktora bola pouzita naposledy</li>
-          <li>Jednoduchy placeholder text, napr $name alebo {MENO} {PRIEZV} {RC}</li>
-          <li>Jednoduchy server side pdf renderer v PHP s nahradzovanim premennych 1:1</li>
-          <li>Jednoduchy html formular kde vyplnim udaje (staticke inputy, SELECT/OPTION namiesto ciselnikov)</li>
-          <li>Nejake ucelene demo: Formular->Server vyplni udaje do reportu->Tlac pdf</li>
           <li>Mozno by som mal odmietnut zmenu velkosti sipkami ak selection obsahuje rozne typy lebo potom to
           nie je jednoznacne, resp. inak sa chovat ked je zvolena 1 item a inak ked su viac</li>
-          <li>Ked kliknem na 2 prekryvajuce sa texty a 1 ciaru, aj bez drzania shiftu by sa mali oznacit vsetky 3</li>
-          <li>textDrawItem mozno zlucit do textDraw, lebo narozdiel od ciary ktora sa kresli este ked je nepridana
+          <li>textDrawPrimitive mozno zlucit do textDraw, lebo narozdiel od ciary ktora sa kresli este ked je nepridana
           do items, text je vzdy pridany do items. Teoreticky by som mohol ciaru kreslit tak ze ju pri mouse down
           pridam, nastavim ako current_item a priebezne menim end a pri pusteni zapisem end, tak by mi stacilo len
-          lineDrawItem</li>
+          lineDraw</li>
           <li>Aplication testy, s naprosto preciznou kontrolo mysi a klaves, viem si to predstavit v lazaruse
           alebo v takom niecom, zacnem novy report, naskriptujem nejaku cinnost, dam ulozit, a potom skontrolujem ci
           sa na servri objavil spravny json. Od jednoduchych veci typu pridanie textu, az po zlosite veci ako
           pridanie textu, posun, oznacenie viac item, spolocny posun, wheel down, click na caption, sipka do lava, del, ulozit</li>
         </ul>
+
+
+        <h2>Todo: New features when basic editing is mastered to perfection</h2>
+        <ul>
+          <li>Nieco (slint/angle) na otacanie textov lebo v lavo su v Z1-12 otocene texty o 90°</li>
+          <li>Spravit kompletne Z1-12 (text,ciary,vertikalne texty,boxy)</li>
+          <li>Jednoduchy placeholder text, napr $name alebo {MENO} {PRIEZV} {RC}</li>
+          <li>Jednoduchy server side pdf renderer v PHP s nahradzovanim premennych 1:1</li>
+          <li>Jednoduchy html formular kde vyplnim udaje (staticke inputy, SELECT/OPTION namiesto ciselnikov)</li>
+          <li>Nejake ucelene demo: Formular->Server vyplni udaje do reportu->Tlac pdf</li>
+        </ul>
+
 
         <h2>Features description</h2>
         <ul>
@@ -216,7 +226,8 @@
                 zacnem ju posuvat, tak sa nestrati oznacenie ostatnych a posunu sa
                 spolu s nou. Normalne ak kliknem na polozku bez shiftu tak sa zrusi
                 oznacenie ostatnych.</li>
-              <li>Ak chcem zrusit oznacenie jednej konkretnej item tak podrzim shift a znova na nu kliknem</li>
+              <li class="broken">Ak chcem zrusit oznacenie jednej konkretnej item tak podrzim shift a znova na nu kliknem</li>
+              <li>Ked kliknem na 2 prekryvajuce sa texty a 1 ciaru, aj bez drzania shiftu by sa mali oznacit vsetky 3</li>
             </ul>
           </li>
 

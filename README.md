@@ -30,6 +30,8 @@ PDF generation.
 
 History
 -------
+- 2012/07/15 - Changed zoom to wheel+rightclick(or shift)
+               Menu position fixed (now always visible)
 - 2012/07/12 - Cleaned up global variables.
                Binding for drawing and moving items.
                Renamed lineDrawItem to lineDraw, lineDraw to lineDrawPrimitive.
