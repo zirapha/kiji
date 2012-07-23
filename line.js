@@ -29,15 +29,16 @@ function lineDrawPrimitive(ADx,ADy,AX1,AY1,AX2,AY2,ASelected,AColor,AThicknes,AG
     kiji.context.fillStyle = "red";
     kiji.context.strokeStyle = kiji.threshold_color;
     kiji.context.lineWidth = 2*kiji.line_threshold;
+    kiji.context.lineCap = 'round';
     kiji.context.beginPath();
     kiji.context.moveTo(ADx+AX1,ADy+AY1);
     kiji.context.lineTo(ADx+AX2,ADy+AY2);
-    kiji.context.lineCap = 'round';
     kiji.context.stroke();
+    kiji.context.closePath();
     kiji.context.lineCap = 'miter';
   }
   // color by selection state
-  kiji.context.fillStyle = "black";
+  kiji.context.fillStyle = "green";
   kiji.context.strokeStyle = 'black';
   if (ASelected) {
     kiji.context.fillStyle = "rgba(0,0,255,1.0)";
@@ -60,13 +61,12 @@ function lineDrawPrimitive(ADx,ADy,AX1,AY1,AX2,AY2,ASelected,AColor,AThicknes,AG
     kiji.context.strokeStyle = AColor;
   }
   // line
-  //kiji.context.save();
   kiji.context.lineWidth = AThicknes;
   kiji.context.beginPath();
   kiji.context.moveTo(ADx+AX1,ADy+AY1);
   kiji.context.lineTo(ADx+AX2,ADy+AY2);
   kiji.context.stroke();
-  //kiji.context.restore();
+  kiji.context.closePath();
 }
 
 function lineHandle(AItem,AX,AY) {

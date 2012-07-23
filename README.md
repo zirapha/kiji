@@ -48,6 +48,7 @@ History
                Visualize threshold.
                Threshold different for line and text and depends on zoom.
                Improved items moving by temporal threshold to prevent misclicks
+               Fixed line drawing (closePath after stroke)
 - 2012/07/15 - Changed zoom to wheel+rightclick(or shift).
                Menu position fixed (now always visible).
 - 2012/07/12 - Cleaned up global variables.
