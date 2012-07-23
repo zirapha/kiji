@@ -33,6 +33,7 @@ function bodyOnLoad() {
   kiji.dy = 1*localStorage.getItem('KIJI_DY');
   kiji.zoom = 1.0*localStorage.getItem('KIJI_ZOOM');
   if (kiji.zoom <= 0) kiji.zoom = 1;
+  updateThreshold();
   // load report from local storage
   if (localStorage.getItem('KIJI_REPORT')) {
     kiji.report = JSON.parse(localStorage.getItem('KIJI_REPORT'));
@@ -65,6 +66,15 @@ function bgOnLoad() {
   redraw('bgOnLoad');
 }
 
+function updateThreshold() {
+  // calculate optimal threshold
+  kiji.threshold = 6.0 / kiji.zoom;
+//  if (kiji.threshold < 4)
+//    kiji.threshold = 4;
+  console.log('zoom='+kiji.zoom+' threshold='+kiji.threshold);
+  document.getElementById('thr').innerHTML = 'Z:'+kiji.zoom.toFixed(2)+' T:'+kiji.threshold.toFixed(2);
+}
+
 function updateZoom(AThis,AEvent,AKoefMul,AKoefAdd) {
   // arbitrary zoom
   //console.log('zoom('+AKoefMul+'*'+zoom+'+'+AKoefAdd+'): zoom='+zoom+' cw='+kiji.canvas.width+' ch='+kiji.canvas.height+' dx='+kiji.dx+' dy='+kiji.dy);
@@ -92,6 +102,9 @@ function updateZoom(AThis,AEvent,AKoefMul,AKoefAdd) {
   kiji.dx = -qx + cx*(kiji.canvas.width/kiji.canvas.clientWidth);
   kiji.dy = -qy + cy*(kiji.canvas.height/kiji.canvas.clientHeight);
   //console.log('    dx='+kiji.dx+' dy='+kiji.dy);
+
+  // calculate optimal threshold
+  updateThreshold();
 
   redraw('updateZoom');
 }
