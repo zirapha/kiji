@@ -197,7 +197,7 @@ function bodyOnKeyDown(AThis,AEvent) {
       return false;
     }
     // left
-    if (down) {
+    if (left) {
       itemMoveSelected(kiji.report,-delta,0);
       redraw('bodyOnKeyDown 5');
       return false;
