@@ -122,6 +122,7 @@ function updateZoom(AThis,AEvent,AKoefMul,AKoefAdd) {
 function zoom100() {
   // restore zoom to 100% and move report to origin
   kiji.zoom = 1.0;
+  updateThreshold();
   kiji.canvas.width = kiji.bg.width / kiji.zoom;
   kiji.canvas.height = kiji.bg.height / kiji.zoom;
   kiji.dx = 0;
