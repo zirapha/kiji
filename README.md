@@ -42,12 +42,13 @@ Todo
 
 History
 -------
-- 2012/07/23 - Fixed left movement
-               Fixed unselecting items by holding shift while click on selected item
-               In help tool ESC set previous tool
-               Visualize threshold
-- 2012/07/15 - Changed zoom to wheel+rightclick(or shift)
-               Menu position fixed (now always visible)
+- 2012/07/23 - Fixed left movement.
+               Fixed unselecting items by holding shift while click on selected item.
+               In help tool ESC set previous tool.
+               Visualize threshold.
+               Threshold different for line and text and depends on zoom.
+- 2012/07/15 - Changed zoom to wheel+rightclick(or shift).
+               Menu position fixed (now always visible).
 - 2012/07/12 - Cleaned up global variables.
                Binding for drawing and moving items.
                Renamed lineDrawItem to lineDraw, lineDraw to lineDrawPrimitive.

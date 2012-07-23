@@ -16,6 +16,7 @@ var
   kiji.dy = 0;
   kiji.current_item = null;
   kiji.button = null;
+  kiji.threshold_color = 'RGBA(255,0,155,0.2)';
   kiji.line_threshold_orig = 5;
   kiji.text_threshold_orig = 2;
   kiji.line_threshold = kiji.line_threshold_orig;

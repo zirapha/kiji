@@ -27,7 +27,7 @@ function lineDrawPrimitive(ADx,ADy,AX1,AY1,AX2,AY2,ASelected,AColor,AThicknes,AG
   // threshold indicator
   if (kiji.show_threshold) {
     kiji.context.fillStyle = "red";
-    kiji.context.strokeStyle = 'RGBA(0,155,155,0.2)';
+    kiji.context.strokeStyle = kiji.threshold_color;
     kiji.context.lineWidth = 2*kiji.line_threshold;
     kiji.context.beginPath();
     kiji.context.moveTo(ADx+AX1,ADy+AY1);
