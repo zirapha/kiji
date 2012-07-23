@@ -85,7 +85,10 @@ function itemSelect(AReport,AX,AY,AThreshold,AAddToSelection) {
     if (AReport[i].distance(AX,AY) <= AThreshold) {
       if (!AReport[i].Selected)
         s++;
-      AReport[i].Selected = true;
+      if (AAddToSelection)
+        AReport[i].Selected = !AReport[i].Selected;
+      else
+        AReport[i].Selected = true;
       currently_selected_item = AReport[i];
     }
 
