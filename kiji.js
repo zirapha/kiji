@@ -16,9 +16,10 @@ var
   kiji.dy = 0;
   kiji.current_item = null;
   kiji.button = null;
-  kiji.threshold = 5;
-  kiji.line_threshold = 5;
-  kiji.text_threshold = 2;
+  kiji.line_threshold_orig = 5;
+  kiji.text_threshold_orig = 2;
+  kiji.line_threshold = kiji.line_threshold_orig;
+  kiji.text_threshold = kiji.text_threshold_orig;
   kiji.show_threshold = false;
 
 function bodyOnLoad() {
@@ -70,11 +71,12 @@ function bgOnLoad() {
 
 function updateThreshold() {
   // calculate optimal threshold
-  kiji.threshold = 6.0 / kiji.zoom;
+  kiji.line_threshold = kiji.line_threshold_orig / kiji.zoom;
+  kiji.text_threshold = kiji.text_threshold_orig / kiji.zoom;
 //  if (kiji.threshold < 4)
 //    kiji.threshold = 4;
-  console.log('zoom='+kiji.zoom+' threshold='+kiji.threshold);
-  document.getElementById('thr').innerHTML = 'Z:'+kiji.zoom.toFixed(2)+' T:'+kiji.threshold.toFixed(2);
+  console.log('zoom='+kiji.zoom+' LT='+kiji.line_threshold);
+  document.getElementById('thr').innerHTML = 'Z:'+kiji.zoom.toFixed(2)+' T:'+kiji.line_threshold.toFixed(2);
 }
 
 function updateZoom(AThis,AEvent,AKoefMul,AKoefAdd) {

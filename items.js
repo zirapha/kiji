@@ -68,7 +68,7 @@ function itemThreshold(AItem) {
     case "Line": return kiji.line_threshold;
     case "Text": return kiji.text_threshold;
   }
-  return kiji.threshold;
+  throw "Unknown item type: "+AItem.Type;
 }
 
 function itemSelect(AReport,AX,AY,AAddToSelection) {
