@@ -22,6 +22,7 @@ var
   kiji.line_threshold = kiji.line_threshold_orig;
   kiji.text_threshold = kiji.text_threshold_orig;
   kiji.show_threshold = false;
+  kiji.temporal_misclick_threshold = 200;
 
 function bodyOnLoad() {
   // initialize form

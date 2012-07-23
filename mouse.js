@@ -15,6 +15,10 @@ function MouseHandler() {
   // selection
   this.sel_count = 0;
 
+  // log time of mouse down/up to prevent misclicks
+  this.time_down = 0;
+  this.time_up = 0;
+
   this.updateRealXY = function (AThis, AEvent) {
     // update real_x, real_y after mouse event on canvas
     var mx = AEvent.pageX-AThis.offsetLeft;
@@ -28,6 +32,7 @@ function MouseHandler() {
     // press mouse button above canvas
     this.updateRealXY(AThis,AEvent)
     //console.log('MouseHandler.canvasOnMouseDown(rx:'+this.real_x+', ry:'+this.real_y+', b:'+AEvent.button+')');
+    this.time_down = AEvent.timeStamp;
 
     // remember start point
     this.start_x = this.real_x;
@@ -71,6 +76,7 @@ function MouseHandler() {
     // release mouse button
     //console.log('MouseHandler.canvasOnMouseUp(...)');
     this.updateRealXY(AThis,AEvent)
+    this.time_up = AEvent.timeStamp;
 
     // finish pan
     if (this.start_button==1) {
@@ -81,26 +87,33 @@ function MouseHandler() {
 
     // finish move
     if (kiji.tool == 'Move') {
-      if ((this.start_button==0) && (this.sel_count>=0)) {
-        undoPush(kiji.report);
-        // finished moving line begin
-        if (this.start_handle == 1) {
-          //console.log('finished moving line begin');
-          kiji.current_item.X = this.real_x;
-          kiji.current_item.Y = this.real_y;
+      if ( (this.start_button==0) && (this.sel_count>=0) ) {
+        // prevent misclicks (NOTE: currently it uses only temporal click data, it would be better to use both temporal and spatial click data to decide if it was misclick or regular movement)
+        console.log('dt='+(this.time_up-this.time_down));
+        if (this.time_up-this.time_down > kiji.temporal_misclick_threshold) {
+          undoPush(kiji.report);
+          // finished moving line begin
+          if (this.start_handle == 1) {
+            //console.log('finished moving line begin');
+            kiji.current_item.X = this.real_x;
+            kiji.current_item.Y = this.real_y;
+          }
+          // finished moving line end
+          if (this.start_handle == 2) {
+            //console.log('finished moving line end');
+            kiji.current_item.EndX = this.real_x;
+            kiji.current_item.EndY = this.real_y;
+          }
+          // ortogonalize line after editing
+          if (this.start_handle > 0)
+            lineOrtogonalize(kiji.current_item,this.start_handle);
+          // finish moving normal objects or middle of line
+          if (this.start_handle <= 0) {
+            var mx = this.real_x-this.start_x;
+            var my = this.real_y-this.start_y;
+            itemMoveSelected(kiji.report, mx, my);
+          }
         }
-        // finished moving line end
-        if (this.start_handle == 2) {
-          //console.log('finished moving line end');
-          kiji.current_item.EndX = this.real_x;
-          kiji.current_item.EndY = this.real_y;
-        }
-        // ortogonalize line after editing
-        if (this.start_handle > 0)
-          lineOrtogonalize(kiji.current_item,this.start_handle);
-        // finish moving normal objects or middle of line
-        if (this.start_handle <= 0)
-          itemMoveSelected(kiji.report, this.real_x-this.start_x, this.real_y-this.start_y);
         // redraw
         redraw('mh.canvasOnMouseUp 2');
       }

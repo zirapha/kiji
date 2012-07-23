@@ -71,10 +71,14 @@ function itemThreshold(AItem) {
   throw "Unknown item type: "+AItem.Type;
 }
 
+// workaround, neskor itemSelect bude vracat viac items lebo v jednom kroku moze byt zvolenych viac item
+recently_selected = [];
+
 function itemSelect(AReport,AX,AY,AAddToSelection) {
   // select item by clicking on or near it, returns any of the items that was selected, handle multiselection using shift
   console.log('itemSelect(AReport[0..'+(AReport.length-1)+'], x:'+AX+', y:'+AY+', add:'+AAddToSelection+')');
   var currently_selected_item = null;
+  recently_selected = [];
 
   // did user clicked something already selected? if so do not remove previous selection
   var already_selected = false;
@@ -95,13 +99,18 @@ function itemSelect(AReport,AX,AY,AAddToSelection) {
     if (AReport[i].distance(AX,AY) <= itemThreshold(AReport[i])) {
       if (!AReport[i].Selected)
         s++;
-      if (AAddToSelection)
+      if (AAddToSelection) {
         AReport[i].Selected = !AReport[i].Selected;
-      else
+        if (AReport[i].Selected)
+          recently_selected.push(AReport[i]);
+      } else {
         AReport[i].Selected = true;
+          recently_selected.push(AReport[i]);
+      }
       currently_selected_item = AReport[i];
     }
 
+  //console.log('rs='+recently_selected.length);
   return currently_selected_item;
 }
 
