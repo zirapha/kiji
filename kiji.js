@@ -36,6 +36,9 @@ function bodyOnLoad() {
   kiji.dx = 1*localStorage.getItem('KIJI_DX');
   kiji.dy = 1*localStorage.getItem('KIJI_DY');
   kiji.zoom = 1.0*localStorage.getItem('KIJI_ZOOM');
+  document.getElementById('show_threshold').checked = (localStorage.getItem('KIJI_ST') == 'true');
+  if (localStorage.hasOwnProperty('KIJI_ST'))
+    kiji.show_threshold = (localStorage.getItem('KIJI_ST') == 'true');
   if (kiji.zoom <= 0) kiji.zoom = 1;
   updateThreshold();
   // load report from local storage
@@ -60,6 +63,7 @@ function bodyOnUnload() {
   localStorage.setItem('KIJI_DY',kiji.dy);
   localStorage.setItem('KIJI_ZOOM',kiji.zoom);
   localStorage.setItem('KIJI_REPORT',JSON.stringify(kiji.report));
+  localStorage.setItem('KIJI_ST',document.getElementById('show_threshold').checked);
 }
 
 function bgOnLoad() {
