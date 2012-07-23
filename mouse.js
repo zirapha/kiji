@@ -37,7 +37,7 @@ function MouseHandler() {
 
     // select item
     if (this.start_button==0)
-      kiji.current_item = itemSelect(kiji.report, this.real_x, this.real_y, kiji.threshold, AEvent.shiftKey);
+      kiji.current_item = itemSelect(kiji.report, this.real_x, this.real_y, AEvent.shiftKey);
     this.sel_count = itemSelectedCount(kiji.report)
 
     // nothing is selected

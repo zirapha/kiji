@@ -17,7 +17,9 @@ var
   kiji.current_item = null;
   kiji.button = null;
   kiji.threshold = 5;
-  kiji.show_threshold = true;
+  kiji.line_threshold = 5;
+  kiji.text_threshold = 2;
+  kiji.show_threshold = false;
 
 function bodyOnLoad() {
   // initialize form
@@ -363,6 +365,12 @@ function bodyOnMouseWheel(AThis,AEvent) {
     return false;
   }
   //  return false;
+}
+
+function changeThresholdVisibility(AChecked) {
+  // change whether threshold indicator should be visible or not
+  kiji.show_threshold = AChecked;
+  redraw();
 }
 
 

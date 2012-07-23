@@ -62,27 +62,37 @@ function itemMoveSelected(AReport,ADeltaX,ADeltaY) {
       AReport[i].move(ADeltaX,ADeltaY);
 }
 
-function itemSelect(AReport,AX,AY,AThreshold,AAddToSelection) {
+function itemThreshold(AItem) {
+  // text usually need smaller threshold, if any
+  switch (AItem.Type) {
+    case "Line": return kiji.line_threshold;
+    case "Text": return kiji.text_threshold;
+  }
+  return kiji.threshold;
+}
+
+function itemSelect(AReport,AX,AY,AAddToSelection) {
   // select item by clicking on or near it, returns any of the items that was selected, handle multiselection using shift
-  console.log('itemSelect(AReport[0..'+(AReport.length-1)+'], x:'+AX+', y:'+AY+', tr:'+AThreshold+', add:'+AAddToSelection+')');
+  console.log('itemSelect(AReport[0..'+(AReport.length-1)+'], x:'+AX+', y:'+AY+', add:'+AAddToSelection+')');
   var currently_selected_item = null;
 
   // did user clicked something already selected? if so do not remove previous selection
   var already_selected = false;
   for (var i=0; i<AReport.length; i++)
-    if (AReport[i].distance(AX,AY) <= AThreshold)
+    if (AReport[i].distance(AX,AY) <= itemThreshold(AReport[i]))
       if (AReport[i].Selected)
         already_selected = true;
 
   // cancel previous selection
-  if ( (!AAddToSelection)&&(!already_selected) )
+  if (!AAddToSelection)
     for (var i=0; i<AReport.length; i++)
-      AReport[i].Selected = false;
+      if (!already_selected)
+        AReport[i].Selected = false;
 
   // select all items within threshold
   var s = 0;
   for (var i=0; i<AReport.length; i++)
-    if (AReport[i].distance(AX,AY) <= AThreshold) {
+    if (AReport[i].distance(AX,AY) <= itemThreshold(AReport[i])) {
       if (!AReport[i].Selected)
         s++;
       if (AAddToSelection)

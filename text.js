@@ -26,7 +26,7 @@ function textDrawPrimitive(ACaption,AX,AY,AWidth,AHeight,AFont,AColor,ASelected,
   // threshold indicator
   if (kiji.show_threshold) {
     kiji.context.fillStyle = "RGBA(0,155,155,0.2)";
-    kiji.context.fillRect(AX+ADx-kiji.threshold,AY+ADy-AHeight-kiji.threshold,AWidth+2*kiji.threshold,AHeight+2*kiji.threshold);
+    kiji.context.fillRect(AX+ADx-kiji.text_threshold,AY+ADy-AHeight-kiji.text_threshold,AWidth+2*kiji.text_threshold,AHeight+2*kiji.text_threshold);
     //kiji.context.stroke();
   }
   // color by selection state

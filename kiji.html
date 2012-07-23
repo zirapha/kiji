@@ -58,6 +58,11 @@
       width: 80px;
     }
 
+    input[type=checkbox] {
+      width: auto;
+    }
+
+
     #HelpContent {
       background: silver;
       padding: 1em;
@@ -69,6 +74,13 @@
     }
     li.broken:before {
       content: "BROKEN: ";
+    }
+
+    li.sideeffect {
+      color: gray;
+    }
+    li.sideeffect:before {
+      content: "SIDE EFFECT: ";
     }
     </style>
   </head>
@@ -150,6 +162,7 @@
         <div id="rxy">X:0, Y:0</div>
         <div id="items">Items: 0/0</div>
         <div id="thr">T:?</div>
+        <input id="show_threshold" type="checkbox" onchange="changeThresholdVisibility(this.checked)" /><label for="show_threshold">Show threshold</label>
       </div>
     </div>
 
@@ -226,6 +239,7 @@
               oznacenie ostatnych.</li>
             <li>Ak chcem zrusit oznacenie jednej konkretnej item tak podrzim shift a znova na nu kliknem</li>
             <li>Ked kliknem na 2 prekryvajuce sa texty a 1 ciaru, aj bez drzania shiftu by sa mali oznacit vsetky 3</li>
+            <li class="sideeffect">Mam 3 polozky A prekryvajuce sa B a B prekryvajuce sa s C. A a C sa neprekryvaju. Ked kliknem na prienik AuB oznacia sa spravne A aj B. Ak potom kliknem (bez shiftu) na BuC, tak sa oznacia A, B aj C lebo som klikol na B ktore uz je oznacene, a teda sa nemoze stratit oznacenie A.</li>
           </ul>
         </li>
 
