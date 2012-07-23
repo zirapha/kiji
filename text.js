@@ -22,7 +22,13 @@ function textDraw(ADx,ADy) {
 }
 
 function textDrawPrimitive(ACaption,AX,AY,AWidth,AHeight,AFont,AColor,ASelected,ADx,ADy) {
-  // actual text drawing
+  // draw text item
+  // threshold indicator
+  if (kiji.show_threshold) {
+    kiji.context.fillStyle = "RGBA(0,155,155,0.2)";
+    kiji.context.fillRect(AX+ADx-kiji.threshold,AY+ADy-AHeight-kiji.threshold,AWidth+2*kiji.threshold,AHeight+2*kiji.threshold);
+    //kiji.context.stroke();
+  }
   // color by selection state
   kiji.context.fillStyle = "rgba(0,0,0,1.0)";
   kiji.context.textAlign = "left";

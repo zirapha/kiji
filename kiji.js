@@ -16,6 +16,8 @@ var
   kiji.dy = 0;
   kiji.current_item = null;
   kiji.button = null;
+  kiji.threshold = 5;
+  kiji.show_threshold = true;
 
 function bodyOnLoad() {
   // initialize form

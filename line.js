@@ -23,10 +23,22 @@ function lineDraw(ADx,ADy) {
 }
 
 function lineDrawPrimitive(ADx,ADy,AX1,AY1,AX2,AY2,ASelected,AColor,AThicknes,AGrip) {
-  // line drawing from point A to B (used for new lines)
+  // line drawing from point A to B
+  // threshold indicator
+  if (kiji.show_threshold) {
+    kiji.context.fillStyle = "red";
+    kiji.context.strokeStyle = 'RGBA(0,155,155,0.2)';
+    kiji.context.lineWidth = 10;
+    kiji.context.beginPath();
+    kiji.context.moveTo(ADx+AX1,ADy+AY1);
+    kiji.context.lineTo(ADx+AX2,ADy+AY2);
+    kiji.context.lineCap = 'round';
+    kiji.context.stroke();
+    kiji.context.lineCap = 'miter';
+  }
+  // color by selection state
   kiji.context.fillStyle = "black";
   kiji.context.strokeStyle = 'black';
-  // color by selection state
   if (ASelected) {
     kiji.context.fillStyle = "rgba(0,0,255,1.0)";
     kiji.context.strokeStyle = "rgba(0,0,255,1.0)";
@@ -48,13 +60,13 @@ function lineDrawPrimitive(ADx,ADy,AX1,AY1,AX2,AY2,ASelected,AColor,AThicknes,AG
     kiji.context.strokeStyle = AColor;
   }
   // line
-  kiji.context.save();
+  //kiji.context.save();
   kiji.context.lineWidth = AThicknes;
   kiji.context.beginPath();
   kiji.context.moveTo(ADx+AX1,ADy+AY1);
   kiji.context.lineTo(ADx+AX2,ADy+AY2);
   kiji.context.stroke();
-  kiji.context.restore();
+  //kiji.context.restore();
 }
 
 function lineHandle(AItem,AX,AY) {
