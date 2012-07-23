@@ -9,6 +9,7 @@ var
   kiji.white = null;
   kiji.zoom = 1.0;
   kiji.tool = 'Move';
+  kiji.old_tool = kiji.tool;
   kiji.mouse_handler = null;
   kiji.attributes_focused = false;
   kiji.dx = 0;
@@ -139,6 +140,10 @@ function bodyOnKeyDown(AThis,AEvent) {
   if (kiji.attributes_focused)
     return true;
 
+  // if tool is help, esc hides it and set tool to move
+  if ( (kiji.tool=='Help')&&(AEvent.keyCode==27) )
+    setTool(document.getElementById(kiji.old_tool));
+
   // ctrl+z = undo
   if ( AEvent.ctrlKey && (AEvent.keyCode==90) )
     toolUndo();
@@ -215,6 +220,7 @@ function bodyOnKeyDown(AThis,AEvent) {
 
 function setTool(AThis) {
   // set tool and mark it's button as selected (blue)
+  kiji.old_tool = kiji.tool;
   kiji.tool = AThis.id;
   document.getElementById('Move').setAttribute('class',(AThis.id=='Move')?'selected':'');
   document.getElementById('Text').setAttribute('class',(AThis.id=='Text')?'selected':'');

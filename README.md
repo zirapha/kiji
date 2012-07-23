@@ -44,6 +44,7 @@ History
 -------
 - 2012/07/23 - Fixed left movement
                Fixed unselecting items by holding shift while click on selected item
+               In help tool ESC set previous tool
 - 2012/07/15 - Changed zoom to wheel+rightclick(or shift)
                Menu position fixed (now always visible)
 - 2012/07/12 - Cleaned up global variables.
