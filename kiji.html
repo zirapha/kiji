@@ -155,6 +155,10 @@
           <label for="attr_color">Color</label>
           <input id="attr_color" onfocus="attrOnFocus(this)" onblur="attrOnBlur(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="attrOnInput(this,event)" />
         </div>
+        <div>
+          <label for="guide">Guide</label>
+          <input type="range" min="0" max="100" step="10" id="guide" onfocus="attrOnFocus(this)" onblur="attrOnBlur(this)" onkeydown="attrOnKeyDown(this,event)" onmousedown="return attrOnMouseDown(this,event)" oninput="changeGuide(this,event)" />
+        </div>
       </div>
 
       <!-- this is mostly for debuging purposes -->
@@ -185,7 +189,6 @@
 
       <h2>Todo: wishlist</h2>
       <ul>
-        <li>Tlacitko white co potlaci pozadie, asi sposobom on/off, alebo off/10%/50%/100% alebo slider?</li>
         <li>Nejaky threshold na pan (alebo posun items?) lebo takto sa posuva o 1-2 pixely ked trosku blbo kliknem</li>
         <li>Nejake zarovnavanie horizontalne/vertikalne k inym objektom, ako v lazaruse, alebo snap nejaky
         (napr. ak kliknem tak najde najblizsi priesecnik 2 ciar a zarovna ich)</li>

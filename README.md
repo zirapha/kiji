@@ -42,6 +42,7 @@ Todo
 
 History
 -------
+- 2012/08/05 - Slider for white background overlay.
 - 2012/07/23 - Fixed left movement.
                Fixed unselecting items by holding shift while click on selected item.
                In help tool ESC set previous tool.

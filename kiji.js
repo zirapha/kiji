@@ -6,7 +6,7 @@ var
   kiji.canvas = null;
   kiji.context = null;
   kiji.bg = null;
-  kiji.white = null;
+  kiji.guide = null;
   kiji.zoom = 1.0;
   kiji.tool = 'Move';
   kiji.old_tool = kiji.tool;
@@ -49,6 +49,11 @@ function bodyOnLoad() {
     // I tend to screw things during development, so I push clean report straight into undo
     undoPush(kiji.report);
   }
+  // restore guide
+  if (localStorage.hasOwnProperty('KIJI_GUIDE')) {
+    kiji.guide = localStorage.getItem('KIJI_GUIDE');
+    document.getElementById('guide').value = 100*kiji.guide;
+  }
   // mouse handler
   kiji.mouse_handler = new MouseHandler();
   // fill selected item to inputs
@@ -65,6 +70,7 @@ function bodyOnUnload() {
   localStorage.setItem('KIJI_ZOOM',kiji.zoom);
   localStorage.setItem('KIJI_REPORT',JSON.stringify(kiji.report));
   localStorage.setItem('KIJI_ST',document.getElementById('show_threshold').checked);
+  localStorage.setItem('KIJI_GUIDE',kiji.guide);
 }
 
 function bgOnLoad() {
@@ -136,10 +142,14 @@ function redraw(AIdentifier) {
   // clear canvas
   kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
   // background
-  kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
-  // 90% white overlay
-  if (kiji.white) {
-    kiji.context.fillStyle = 'rgba(255,255,255,0.90)';
+  if (kiji.guide>0) {
+    kiji.context.drawImage(kiji.bg, kiji.dx, kiji.dy);
+    // transparent white overlay
+    kiji.context.fillStyle = 'rgba(255,255,255,'+(1-kiji.guide)+')';
+    kiji.context.fillRect(kiji.dx, kiji.dy, kiji.bg.width, kiji.bg.height);
+  } else {
+    // 100% white overlay
+    kiji.context.fillStyle = 'white';
     kiji.context.fillRect(kiji.dx, kiji.dy, kiji.bg.width, kiji.bg.height);
   }
   // report items
@@ -382,4 +392,10 @@ function changeThresholdVisibility(AChecked) {
   redraw();
 }
 
+function changeGuide(AThis,AEvent) {
+  // change level of white overlay
+  kiji.guide = 1*AThis.value/100;
+  console.log('changeGuide: value='+AThis.value+' guide='+kiji.guide);
+  redraw();
+}
 
