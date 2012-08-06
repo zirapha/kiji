@@ -185,7 +185,7 @@ function lineCorner(AX,AY) {
   // find any nearby ortogonal line and if corner is nearby try to fix it (so that those line will start in single point)
 
   // variant 1: real corner |_ (both lines will be adjusted)
-  /* var */ lines = [];
+  var lines = [];
   var delta = 0;
   // find near lines
   for (var i=0; i<kiji.report.length; i++)
@@ -194,13 +194,17 @@ function lineCorner(AX,AY) {
       // test both ends of line, add it to lines[] if they are near
       if (distancePointPoint(AX,AY,line.X,line.Y) <= kiji.line_threshold_orig)
         lines.push([line,'Start',lineIsHorizontal(line,0),lineIsVertical(line,0)]);
-      if (distancePointPoint(AX,AY,line.EndX,line.EndY) <= kiji.line_threshold_orig)
+      else if (distancePointPoint(AX,AY,line.EndX,line.EndY) <= kiji.line_threshold_orig)
         lines.push([line,'End',lineIsHorizontal(line,0),lineIsVertical(line,0)]);
-      }
+      // additionally test line for distance, this will be that middle line
+      else if (distancePointLineSegment(AX,AY,line.X,line.Y,line.EndX,line.EndY) <= kiji.line_threshold_orig)
+        lines.push([line,'Middle',lineIsHorizontal(line,0),lineIsVertical(line,0)]);
+    }
   console.log(lines);
+
   // test if this is really this variant 1
-  // must be 2 lines
-  if (lines.length == 2)
+  // must be 2 lines touching by corner
+  if ( (lines.length == 2) && (lines[0][1] != 'Middle') && (lines[1][1] != 'Middle') )
     // must have different slope
     if ( (lines[0][2]!=lines[1][2]) && (lines[0][3]!=lines[1][3]) ) {
       // alert('yes '+lines);
@@ -218,10 +222,43 @@ function lineCorner(AX,AY) {
       delta += lineCornerMove(lines[0][0],lines[0][1],x,y);
       delta += lineCornerMove(lines[1][0],lines[1][1],x,y);
     }
-  console.log('delta='+delta.toFixed(3));
 
   // variant 2: T-junction |- (only 1 line will be adjusted)
-  // FIXME
-  // variant 3: crossing -|- (do not change, points are not there anyway)
+  // must be 2 lines and one is always middle and one is alwas corner
+  if (lines.length == 2) {
+    var x,y;
+    if ( (lines[0][1] == 'Middle') && (lines[1][1] != 'Middle') ) {
+      console.log('v2a');
+      // first line is middle, second is corner
+      if (lines[0][2]) {
+        // a) first (middle) line is horizontal, use Y
+        var x = lines[1][0].X;
+        var y = lines[0][0].Y;
+      } else {
+        // a) first (middle) line is vertical, use X
+        var x = lines[0][0].X;
+        var y = lines[1][0].Y;
+      }
+      // move only second line, middle line never move!
+      delta += lineCornerMove(lines[1][0],lines[1][1],x,y);
+    }
+    if ( (lines[0][1] != 'Middle') && (lines[1][1] == 'Middle') ) {
+      console.log('v2b');
+      // first line is corner, second is middle
+      if (lines[1][2]) {
+        // a) second (middle) line is horizontal, use Y
+        var x = lines[0][0].X;
+        var y = lines[1][0].Y;
+      } else {
+        // a) second (middle) line is vertical, use X
+        var x = lines[1][0].X;
+        var y = lines[0][0].Y;
+      }
+      // move only first line, middle line never move!
+      delta += lineCornerMove(lines[0][0],lines[0][1],x,y);
+    }
+  }
+
+  console.log('delta='+delta.toFixed(2));
 }
 
