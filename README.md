@@ -36,12 +36,15 @@ and line. Most of work being done now is polishing ergonomy and source
 refactoring. Basic editing is not yet mastered and thus no new features will be
 added until this basic editing is perfected.
 
+![Screenshot of kiji from 2012-08-05, black are text and line objects, pink is guide background bitmap, tools and inspector is on the left, selected items are blue](screenshot.png)
+
 Todo
 ----
 - See kiji.html (press Help button) for actual todo
 
 History
 -------
+- 2012/08/06 - Added screenshot of current version.
 - 2012/08/05 - Slider for white background overlay.
 - 2012/07/23 - Fixed left movement.
                Fixed unselecting items by holding shift while click on selected item.
