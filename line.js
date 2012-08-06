@@ -200,7 +200,6 @@ function lineCorner(AX,AY) {
       else if (distancePointLineSegment(AX,AY,line.X,line.Y,line.EndX,line.EndY) <= kiji.line_threshold_orig)
         lines.push([line,'Middle',lineIsHorizontal(line,0),lineIsVertical(line,0)]);
     }
-  console.log(lines);
 
   // test if this is really this variant 1
   // must be 2 lines touching by corner
@@ -228,7 +227,7 @@ function lineCorner(AX,AY) {
   if (lines.length == 2) {
     var x,y;
     if ( (lines[0][1] == 'Middle') && (lines[1][1] != 'Middle') ) {
-      console.log('v2a');
+      //console.log('v2a');
       // first line is middle, second is corner
       if (lines[0][2]) {
         // a) first (middle) line is horizontal, use Y
@@ -243,7 +242,7 @@ function lineCorner(AX,AY) {
       delta += lineCornerMove(lines[1][0],lines[1][1],x,y);
     }
     if ( (lines[0][1] != 'Middle') && (lines[1][1] == 'Middle') ) {
-      console.log('v2b');
+      //console.log('v2b');
       // first line is corner, second is middle
       if (lines[1][2]) {
         // a) second (middle) line is horizontal, use Y
@@ -259,6 +258,6 @@ function lineCorner(AX,AY) {
     }
   }
 
-  console.log('delta='+delta.toFixed(2));
+  console.log('Corner: delta='+delta.toFixed(2)+' lines='+lines);
 }
 
