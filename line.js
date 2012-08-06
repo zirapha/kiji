@@ -152,3 +152,76 @@ function lineMove(ADeltaX,ADeltaY) {
   this.EndY += ADeltaY;
 }
 
+function lineIsHorizontal(AItem,AThreshold) {
+  // return true if line is (almost) horizontal
+  return Math.abs(AItem.Y - AItem.EndY) <= AThreshold;
+}
+
+function lineIsVertical(AItem,AThreshold) {
+  // return true if line is (almost) horizontal
+  return Math.abs(AItem.X - AItem.EndX) <= AThreshold;
+}
+
+function lineCornerMove(AItem,AWhich,AX,AY) {
+  // move specified (AWhich="Start" or "End") corner to certain position, return how much it moved
+  // TODO: check if I don't use similar code in mouse move, i use handle=1/2 or something there
+  if (AItem.Type != "Line")
+    throw 'lineCornerMove error: AItem.Type is not Line but '+AItem.Type;
+  var delta;
+  if (AWhich == "Start") {
+    delta = Math.abs(AItem.X-AX) - Math.abs(AItem.Y-AY);
+    AItem.X = AX;
+    AItem.Y = AY;
+  } else if (AWhich == "End") {
+    delta = Math.abs(AItem.EndX-AX) - Math.abs(AItem.EndY-AY);
+    AItem.EndX = AX;
+    AItem.EndY = AY;
+  } else
+    throw 'lineCornerMove error: AWhich must be either Start of End, but "'+AWhich+'" was given';
+  return delta;
+}
+
+function lineCorner(AX,AY) {
+  // find any nearby ortogonal line and if corner is nearby try to fix it (so that those line will start in single point)
+
+  // variant 1: real corner |_ (both lines will be adjusted)
+  /* var */ lines = [];
+  var delta = 0;
+  // find near lines
+  for (var i=0; i<kiji.report.length; i++)
+    if (kiji.report[i].Type == 'Line') {
+      var line = kiji.report[i];
+      // test both ends of line, add it to lines[] if they are near
+      if (distancePointPoint(AX,AY,line.X,line.Y) <= kiji.line_threshold_orig)
+        lines.push([line,'Start',lineIsHorizontal(line,0),lineIsVertical(line,0)]);
+      if (distancePointPoint(AX,AY,line.EndX,line.EndY) <= kiji.line_threshold_orig)
+        lines.push([line,'End',lineIsHorizontal(line,0),lineIsVertical(line,0)]);
+      }
+  console.log(lines);
+  // test if this is really this variant 1
+  // must be 2 lines
+  if (lines.length == 2)
+    // must have different slope
+    if ( (lines[0][2]!=lines[1][2]) && (lines[0][3]!=lines[1][3]) ) {
+      // alert('yes '+lines);
+      var x,y;
+      if (lines[0][2]) {
+        // a) first is horizontal
+        var x = lines[1][0].X;
+        var y = lines[0][0].Y;
+      } else {
+        // b) second is horizontal
+        var x = lines[0][0].X;
+        var y = lines[1][0].Y;
+      }
+      // tune lines ends
+      delta += lineCornerMove(lines[0][0],lines[0][1],x,y);
+      delta += lineCornerMove(lines[1][0],lines[1][1],x,y);
+    }
+  console.log('delta='+delta.toFixed(3));
+
+  // variant 2: T-junction |- (only 1 line will be adjusted)
+  // FIXME
+  // variant 3: crossing -|- (do not change, points are not there anyway)
+}
+

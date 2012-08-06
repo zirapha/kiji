@@ -22,7 +22,7 @@ var
   kiji.line_threshold = kiji.line_threshold_orig;
   kiji.text_threshold = kiji.text_threshold_orig;
   kiji.show_threshold = false;
-  kiji.temporal_misclick_threshold = 200;
+  kiji.temporal_misclick_threshold = 300;
 
 function bodyOnLoad() {
   // initialize form
@@ -262,6 +262,11 @@ function setTool(AThis) {
   document.getElementById('Text').setAttribute('class',(AThis.id=='Text')?'selected':'');
   document.getElementById('Line').setAttribute('class',(AThis.id=='Line')?'selected':'');
   document.getElementById('Help').setAttribute('class',(AThis.id=='Help')?'selected':'');
+  document.getElementById('Corner').setAttribute('class',(AThis.id=='Corner')?'selected':'');
+  // let some tools use different cursor
+  canvas.style.cursor = 'default';
+  if (kiji.tool == 'Corner')
+    canvas.style.cursor = 'crosshair';
   // show/hide help or canvas
   document.getElementById('HelpContent').style.display = (kiji.tool=='Help')?'block':'none';
   document.getElementById('canvas').style.display      = (kiji.tool=='Help')?'none':'block';

@@ -41,7 +41,7 @@ function MouseHandler() {
     this.start_handle = -1;
 
     // select item
-    if (this.start_button==0)
+    if ( (this.start_button==0)&&(kiji.tool == 'Move') )
       kiji.current_item = itemSelect(kiji.report, this.real_x, this.real_y, AEvent.shiftKey);
     this.sel_count = itemSelectedCount(kiji.report)
 
@@ -144,6 +144,13 @@ function MouseHandler() {
       kiji.current_item = l;
       kiji.report.push(l)
       redraw('mh.canvasOnMouseUp 4');
+    }
+
+    // corner: adjust corner of nearby intersecting lines
+    if ( (kiji.tool == 'Corner') && (this.start_button == 0) ) {
+      undoPush(kiji.report);
+      lineCorner(this.real_x, this.real_y);
+      redraw('mh.canvasOnMouseUp 5');
     }
 
     // button is no longer down

@@ -30,12 +30,15 @@
       border: 0px solid blue;
       position: fixed;
       background-color: white;
+      /*
       border: 1px solid gray;
       border-radius: 5px;
+      */
     }
 
     #tools button {
       cursor: pointer;
+      width: 100%;
     }
 
     #tools button.selected {
@@ -105,13 +108,14 @@
     <div class="menu">
 
       <div id="tools">
-        <button id="Move" onclick="setTool(this)" title="Select and move objects">Move</button>
-        <button id="Text" onclick="setTool(this)" title="Add new text">Text</button>
-        <button id="Line" onclick="setTool(this)" title="Add new line">Line</button>
-        <button id="Help" onclick="setTool(this)" title="Show/hide help">Help</button>
-        <button onclick="zoom100()" title="Zoom to 100% and reset pan">100%</button>
+        <button id="Move" class="full" onclick="setTool(this)" title="Select and move objects">Move</button>
+        <button id="Text" class="full" onclick="setTool(this)" title="Add new text">Text</button>
+        <button id="Line" class="full" onclick="setTool(this)" title="Add new line">Line</button>
+        <button id="Help" class="full" onclick="setTool(this)" title="Show/hide help">Help</button>
+        <button id="Corner" class="full" onclick="setTool(this)" title="Find nearest corner (with right angle) and perfectly align it so it will meet at exactly 1 point">Corner</button>
+        <button class="full" onclick="zoom100()" title="Zoom to 100% and reset pan">100%</button>
         <button onclick="backup(kiji.report)" title="Backup report on server">Backup</button>
-        <button onclick="validate(report,true); redraw('button OnClick');" title="Validate and repair report">Validate</button>
+        <button onclick="validate(kiji.report,true); redraw('button OnClick');" title="Validate and repair report">Validate</button>
       </div>
 
       <div id="attributes">
@@ -184,14 +188,12 @@
 
       <h2>Todo: now</h2>
       <ul>
-        <li>???</li>
+        <li>Corner tool na doladenie rohov (rucne, hromadne, interaktivne (farebny indikator + wanna fix this?))</li>
       </ul>
 
       <h2>Todo: wishlist</h2>
       <ul>
-        <li>Nejaky threshold na pan (alebo posun items?) lebo takto sa posuva o 1-2 pixely ked trosku blbo kliknem</li>
-        <li>Nejake zarovnavanie horizontalne/vertikalne k inym objektom, ako v lazaruse, alebo snap nejaky
-        (napr. ak kliknem tak najde najblizsi priesecnik 2 ciar a zarovna ich)</li>
+        <li>Nejake zarovnavanie horizontalne/vertikalne k inym objektom, ako v lazaruse, alebo snap nejaky</li>
         <li>Vyriesit oznacovanie prekryvajucich sa ramcekov ([ [] ]) mozno cez z-index resp. send to back/front</li>
         <li>Moznost vypnut automaticku ortogonalizaciu ciar</li>
         <li>Obdlznikove oznacovanie viac poloziek</li>
