@@ -36,7 +36,7 @@ and line. Most of work being done now is polishing ergonomy and source
 refactoring. Basic editing is not yet mastered and thus no new features will be
 added until this basic editing is perfected.
 
-![Screenshot of kiji from 2012-08-05, black are text and line objects, pink is guide background bitmap, tools and inspector is on the left, selected items are blue](kiji/master/screenshot.png)
+![Screenshot of kiji from 2012-08-05, black are text and line objects, pink is guide background bitmap, tools and inspector is on the left, selected items are blue](https://raw.github.com/zirapha/kiji/master/screenshot.png)
 
 Todo
 ----
