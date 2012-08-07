@@ -203,7 +203,7 @@ function lineCorner(AX,AY) {
 
   // test if this is really this variant 1
   // must be 2 lines touching by corner
-  if ( (lines.length == 2) && (lines[0][1] != 'Middle') && (lines[1][1] != 'Middle') )
+  if ( (lines.length == 2) && (lines[0][1] != 'Middle') && (lines[1][1] != 'Middle') ) {
     // must have different slope
     if ( (lines[0][2]!=lines[1][2]) && (lines[0][3]!=lines[1][3]) ) {
       // alert('yes '+lines);
@@ -221,6 +221,8 @@ function lineCorner(AX,AY) {
       delta += lineCornerMove(lines[0][0],lines[0][1],x,y);
       delta += lineCornerMove(lines[1][0],lines[1][1],x,y);
     }
+    return true;
+  }
 
   // variant 2: T-junction |- (only 1 line will be adjusted)
   // must be 2 lines and one is always middle and one is alwas corner
@@ -256,8 +258,74 @@ function lineCorner(AX,AY) {
       // move only first line, middle line never move!
       delta += lineCornerMove(lines[0][0],lines[0][1],x,y);
     }
+    return false;
   }
 
-  console.log('Corner: delta='+delta.toFixed(2)+' lines='+lines);
+  // are all those lines either vertical or horizontal?
+  var all_ortogonal = true;
+  for (var i=0; i<lines.length; i++)
+    if ( (!lines[i][2]) && (!lines[i][3]) )
+      all_ortogonal = false;
+
+  // variant3: multiple (e.g. 4) ortogonal (e.g. HHVV) lines cross in one place
+  // [object Object],End,true,false,
+  // [object Object],Start,true,false,
+  // [object Object],End,false,true,
+  // [object Object],Start,false,true
+  if (all_ortogonal) {
+    // find common X (avg from all vertical lines)
+    var x = 0;
+    var n = 0;
+    for (var i=0; i<lines.length; i++)
+      if (lines[i][3]) {
+        x += lines[i][0].X + lines[i][0].EndX;
+        n += 2;
+      }
+    x /= n;
+    // find common Y (avg from all horizontal lines)
+    var y = 0;
+    var n = 0;
+    for (var i=0; i<lines.length; i++)
+      if (lines[i][2]) {
+        y += lines[i][0].Y + lines[i][0].EndY;
+        n += 2;
+      }
+    y /= n;
+    console.log('v3: common x='+x+' y='+y);
+
+    // allign all horizontal lines Y, vertical to X
+    // NOTE: other ends of such lines may change too and will need to be "cornered", could be done recursively but it might be unsolvable! Currently I am leaving it to user.
+    // NOTE: this code will make almost ortogonal line exactly ortogonal
+    // NOTE: v1 seems like special case of v3 but v1 never change the farther end of line thus v1 is safer than v3
+    for (var i=0; i<lines.length; i++) {
+      // horizontal: align Y
+      if (lines[i][2]) {
+        lines[i][0].Y = y;
+        lines[i][0].EndY = y;
+      }
+      // vertical: align X
+      if (lines[i][3]) {
+        lines[i][0].X = x;
+        lines[i][0].EndX = x;
+      }
+    }
+
+    // finally move all points (either start or end) to [x,y] single corner
+    for (var i=0; i<lines.length; i++) {
+      if (lines[i][1] == 'Start') {
+        lines[i][0].X = x;
+        lines[i][0].Y = y;
+        //console.log('  moving S');
+      }
+      if (lines[i][1] == 'End') {
+        lines[i][0].EndX = x;
+        lines[i][0].EndY = y;
+        //console.log('  moving E');
+      }
+    }
+    return true;
+  }
+
+  console.log('Corner unknown variant: delta='+delta.toFixed(2)+' lines('+lines.length+')='+lines);
 }
 

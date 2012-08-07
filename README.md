@@ -44,6 +44,8 @@ Todo
 
 History
 -------
+- 2012/08/07 - Added corner tune for multiple lines (v3).
+               Fixed screenshot resolution for github and it's url.
 - 2012/08/06 - Added screenshot of current version.
                Added corner tool (variant L and T)
 - 2012/08/05 - Slider for white background overlay.
