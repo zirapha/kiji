@@ -173,7 +173,7 @@ function MouseHandler() {
       kiji.context.drawImage(kiji.bg, kiji.dx+this.real_x-this.start_x, kiji.dy+this.real_y-this.start_y);
       // transparent white overlay
       kiji.context.fillStyle = 'rgba(255,255,255,'+(1-kiji.guide)+')';
-      kiji.context.fillRect(kiji.dx, kiji.dy, kiji.bg.width, kiji.bg.height);
+      kiji.context.fillRect(kiji.dx+this.real_x-this.start_x, kiji.dy+this.real_y-this.start_y, kiji.bg.width, kiji.bg.height);
     }
 
     // draw items being moved
