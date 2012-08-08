@@ -22,6 +22,7 @@ var
   kiji.line_threshold = kiji.line_threshold_orig;
   kiji.text_threshold = kiji.text_threshold_orig;
   kiji.show_threshold = false;
+  kiji.line_ortogonal = false;
   kiji.temporal_misclick_threshold = 300;
 
 function bodyOnLoad() {
@@ -38,8 +39,11 @@ function bodyOnLoad() {
   kiji.dy = 1*localStorage.getItem('KIJI_DY');
   kiji.zoom = 1.0*localStorage.getItem('KIJI_ZOOM');
   document.getElementById('show_threshold').checked = (localStorage.getItem('KIJI_ST') == 'true');
+  document.getElementById('line_ortogonal').checked = (localStorage.getItem('KIJI_ORTO') == 'true');
   if (localStorage.hasOwnProperty('KIJI_ST'))
     kiji.show_threshold = (localStorage.getItem('KIJI_ST') == 'true');
+  if (localStorage.hasOwnProperty('KIJI_ORTO'))
+    kiji.line_ortogonal = (localStorage.getItem('KIJI_ORTO') == 'true');
   if (kiji.zoom <= 0) kiji.zoom = 1;
   updateThreshold();
   // load report from local storage
@@ -70,6 +74,7 @@ function bodyOnUnload() {
   localStorage.setItem('KIJI_ZOOM',kiji.zoom);
   localStorage.setItem('KIJI_REPORT',JSON.stringify(kiji.report));
   localStorage.setItem('KIJI_ST',document.getElementById('show_threshold').checked);
+  localStorage.setItem('KIJI_ORTO',document.getElementById('line_ortogonal').checked);
   localStorage.setItem('KIJI_GUIDE',kiji.guide);
 }
 
@@ -85,8 +90,8 @@ function updateThreshold() {
   // calculate optimal threshold
   kiji.line_threshold = kiji.line_threshold_orig / kiji.zoom;
   kiji.text_threshold = kiji.text_threshold_orig / kiji.zoom;
-//  if (kiji.threshold < 4)
-//    kiji.threshold = 4;
+  if (kiji.line_threshold < 1.5)
+    kiji.line_threshold = 1.5;
   console.log('zoom='+kiji.zoom+' LT='+kiji.line_threshold);
   document.getElementById('thr').innerHTML = 'Z:'+kiji.zoom.toFixed(2)+' T:'+kiji.line_threshold.toFixed(2);
 }
@@ -395,6 +400,11 @@ function changeThresholdVisibility(AChecked) {
   // change whether threshold indicator should be visible or not
   kiji.show_threshold = AChecked;
   redraw();
+}
+
+function changeLineOrtogonal(AChecked) {
+  // change whether new lines will be ortogonalized
+  kiji.line_ortogonal = AChecked;
 }
 
 function changeGuide(AThis,AEvent) {

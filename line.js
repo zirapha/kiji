@@ -37,6 +37,8 @@ function lineDrawPrimitive(ADx,ADy,AX1,AY1,AX2,AY2,ASelected,AColor,AThicknes,AG
     kiji.context.closePath();
     kiji.context.lineCap = 'miter';
   }
+  if (AThicknes > 1)
+    kiji.context.lineCap = 'round';
   // color by selection state
   kiji.context.fillStyle = "green";
   kiji.context.strokeStyle = 'black';
@@ -90,6 +92,9 @@ function lineHandle(AItem,AX,AY) {
 function lineOrtogonalize(AItem,AHandle,ADoNotChange) {
   // make line that is almost horizontal/vertical exactly horizontal/vertical by aligning points
   // if ADoNotChange is true, no actual change is made but true is returned, meaning that line needs to be ortogonalized
+  // do nothing if ortogonalization is disabled
+  if (!kiji.line_ortogonal)
+    return false;
   // already ortogonal?
   if ( (AItem.X == AItem.EndX) || (AItem.Y == AItem.EndY) )
     return false;

@@ -44,6 +44,9 @@ Todo
 
 History
 -------
+- 2012/08/08 - Rounded cap of lines thicker than 1px.
+               Line threshold at least 1.5 for high zoom.
+               Option to disable line ortogonalization.
 - 2012/08/07 - Added corner tune for multiple lines (v3).
                Fixed screenshot resolution for github and it's url.
 - 2012/08/06 - Added screenshot of current version.
