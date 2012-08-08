@@ -171,6 +171,9 @@ function MouseHandler() {
       // redraw bg on new position
       kiji.context.clearRect(0,0,kiji.canvas.width,kiji.canvas.height);
       kiji.context.drawImage(kiji.bg, kiji.dx+this.real_x-this.start_x, kiji.dy+this.real_y-this.start_y);
+      // transparent white overlay
+      kiji.context.fillStyle = 'rgba(255,255,255,'+(1-kiji.guide)+')';
+      kiji.context.fillRect(kiji.dx, kiji.dy, kiji.bg.width, kiji.bg.height);
     }
 
     // draw items being moved

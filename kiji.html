@@ -167,11 +167,12 @@
 
       <!-- this is mostly for debuging purposes -->
       <div id="status">
+        <div><input id="show_threshold" type="checkbox" onchange="changeThresholdVisibility(this.checked)" /><label for="show_threshold">Show threshold</label></div>
+        <div><input id="line_ortogonal" type="checkbox" onchange="changeLineOrtogonal(this.checked)" /><label for="line_ortogonal">Ortogonal lines</label></div>
+        <hr />
         <div id="rxy">X:0, Y:0</div>
         <div id="items">Items: 0/0</div>
         <div id="thr">T:?</div>
-        <input id="show_threshold" type="checkbox" onchange="changeThresholdVisibility(this.checked)" /><label for="show_threshold">Show threshold</label>
-        <input id="line_ortogonal" type="checkbox" onchange="changeLineOrtogonal(this.checked)" /><label for="line_ortogonal">Line ortogonal</label>
       </div>
     </div>
 
