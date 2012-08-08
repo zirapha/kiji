@@ -226,6 +226,7 @@ function lineCorner(AX,AY) {
       delta += lineCornerMove(lines[0][0],lines[0][1],x,y);
       delta += lineCornerMove(lines[1][0],lines[1][1],x,y);
     }
+    console('corner v1 |_: x='+x+' y='+y+' delta='+delta);
     return true;
   }
 
@@ -263,6 +264,7 @@ function lineCorner(AX,AY) {
       // move only first line, middle line never move!
       delta += lineCornerMove(lines[0][0],lines[0][1],x,y);
     }
+    console.log('corner v2 T: x='+x+' y='+y+' delta='+delta);
     return false;
   }
 
@@ -296,7 +298,7 @@ function lineCorner(AX,AY) {
         n += 2;
       }
     y /= n;
-    console.log('v3: common x='+x+' y='+y);
+    console.log('v3(c='+lines.length+' n='+n+'): x='+x+' y='+y);
 
     // allign all horizontal lines Y, vertical to X
     // NOTE: other ends of such lines may change too and will need to be "cornered", could be done recursively but it might be unsolvable! Currently I am leaving it to user.

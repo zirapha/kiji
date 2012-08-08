@@ -414,3 +414,9 @@ function changeGuide(AThis,AEvent) {
   redraw();
 }
 
+function dot(AX,AY) {
+  // draw helper dot, last until next refresh
+  kiji.context.fillStyle = "red";
+  kiji.context.strokeStyle = "green";
+  kiji.context.fillRect(AX-2+kiji.dx,AY-2+kiji.dy,4,4);
+}
