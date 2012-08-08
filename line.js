@@ -198,13 +198,18 @@ function lineCorner(AX,AY) {
       var line = kiji.report[i];
       // test both ends of line, add it to lines[] if they are near
       if (distancePointPoint(AX,AY,line.X,line.Y) <= kiji.line_threshold_orig)
-        lines.push([line,'Start',lineIsHorizontal(line,0),lineIsVertical(line,0)]);
+        lines.push([line,'Start',lineIsHorizontal(line,kiji.line_threshold),lineIsVertical(line,kiji.line_threshold)]);
       else if (distancePointPoint(AX,AY,line.EndX,line.EndY) <= kiji.line_threshold_orig)
         lines.push([line,'End',lineIsHorizontal(line,0),lineIsVertical(line,0)]);
       // additionally test line for distance, this will be that middle line
       else if (distancePointLineSegment(AX,AY,line.X,line.Y,line.EndX,line.EndY) <= kiji.line_threshold_orig)
-        lines.push([line,'Middle',lineIsHorizontal(line,0),lineIsVertical(line,0)]);
+        lines.push([line,'Middle',lineIsHorizontal(line,kiji.line_threshold),lineIsVertical(line,kiji.line_threshold)]);
     }
+  console.log(lines);
+
+  // lines must be ortogonalized
+  for (var i=0; i<lines.length; i++)
+    lineOrtogonalize(lines[i][0],1);
 
   // test if this is really this variant 1
   // must be 2 lines touching by corner
@@ -226,7 +231,7 @@ function lineCorner(AX,AY) {
       delta += lineCornerMove(lines[0][0],lines[0][1],x,y);
       delta += lineCornerMove(lines[1][0],lines[1][1],x,y);
     }
-    console('corner v1 |_: x='+x+' y='+y+' delta='+delta);
+    console.log('corner v1 |_: x='+x+' y='+y+' delta='+delta);
     return true;
   }
 
@@ -279,7 +284,7 @@ function lineCorner(AX,AY) {
   // [object Object],Start,true,false,
   // [object Object],End,false,true,
   // [object Object],Start,false,true
-  if (all_ortogonal) {
+  if (all_ortogonal&&(lines.length>=2)) {
     // find common X (avg from all vertical lines)
     var x = 0;
     var n = 0;
